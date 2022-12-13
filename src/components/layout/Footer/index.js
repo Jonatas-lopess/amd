@@ -22,9 +22,9 @@ const Footer = () => (
                     </div>
         <div className="row justify-content-center mt-1">
             <div className="text-center">
-                <p className="font-weight-bold">2022 © Desenvolvido por SIVIS TECNOLOGIA </p>
-                <p>VIP SERVICE SOLUCOES INTEGRADAS LTDA ME</p>
-                <p>CNPJ: 02.468.849/0001-10</p>
+                <p className="font-weight-bold">SAC: 24 3026-8309</p>
+                <p>Dúvidas? Fale Conosco</p>
+                <p className='font-weight-bold'>2022 © Desenvolvido por SIVIS TECNOLOGIA</p>
             </div>
         </div>
     </div>

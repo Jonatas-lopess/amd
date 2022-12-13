@@ -1,18 +1,10 @@
-import React from 'react';
-import GeoMap from './Geolocation';
-import Layout from './layout/Layout';
-import UploadImages from './UploadImages';
-import UploadVideos from './UploadVideos';
+import Layout from './layout';
+import Vistoria from './Vistoria';
 
-
-const App = () => {
-  return (
-    <Layout>
-      <GeoMap />
-      <UploadImages />
-      <UploadVideos />
-    </Layout>
-  );
-}
+const App = () => (
+  <Layout>
+    <Vistoria />
+  </Layout>
+);
 
 export default App;
