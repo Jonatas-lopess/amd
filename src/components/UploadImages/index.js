@@ -2,10 +2,10 @@ import { faCamera } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import './style.css';
 
-const UploadImages = (props) => {
+const UploadImages = ({ imageURLCallback }) => {
     function onImageChange(e) {
-        if (e.target.files[0] === null) return;
-        props.imageURLCallback(URL.createObjectURL(e.target.files[0]));
+        if (e.target.files[0] === null || e.target.files[0] === undefined) return;
+        imageURLCallback(URL.createObjectURL(e.target.files[0]));
     }
     
     return (

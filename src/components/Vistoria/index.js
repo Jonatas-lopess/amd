@@ -1,29 +1,30 @@
-import veiculoImg from '../../assets/img/veiculo.jpg';
-import './style.css';
-import { useEffect, useState } from 'react';
-import UploadImages from '../UploadImages';
+import { useState } from 'react';
+import fetchData from '../../api/fetchData';
+import Layout from '../../layout';
+import Step from '../Step';
+
+const resource = fetchData();
 
 const Vistoria = () => {
-    const [imageURL, setImageURL] = useState(null);
+    const data = resource.data.read().vistoriaEtapas;
+    const [currentStep, setCurrentStep] = useState(1);
+    const mountStepsArray = () => {
+        let arr = []
+        for (let index = 0; index < data.length; index++) {
+            let element = data[index].imagens;
+            for (let i = 0; i < element.length; i++) {
+                arr.push(element[i]);
+            }          
+        }
+        return arr;
+    }
+    const stepsArray = mountStepsArray();
 
-    useEffect(() => {
-        return () => {console.log('desmontou');URL.revokeObjectURL(imageURL)};
-    }, [imageURL])
-    
     return (
-    <>
-    <h1>Lateral do Motorista</h1>
-    <img src={(imageURL ?? veiculoImg)} alt="veiculo" className='veiculo-img' />
-    <div className='info'>
-        <h4>foto obrigatória</h4>
-        <ul>
-            <li>Na foto deve aparecer toda lateral do motorista;</li>
-            <li><span>Atenção:</span> Os vidros devem estar fechados.</li>
-        </ul>
-    </div>
-    <h2>tirar foto</h2>
-    <UploadImages imageURLCallback={setImageURL} />
-    </>
-)}
+        <Layout stepNumber={stepsArray.length} currentStep={currentStep} changeStep={setCurrentStep}>
+            <Step data={stepsArray[currentStep]} key={currentStep} />
+        </Layout>
+    )
+}
 
 export default Vistoria;
