@@ -1,0 +1,16 @@
+.camera{
+    background-color: #0b028b;
+    width: fit-content;
+    margin: auto;
+    border-radius: 50px;
+}
+
+.camera label{
+    display: flex;
+    flex: 1;
+    padding: .6rem;
+}
+
+.cameraIcon{
+    color: #F2A007;
+}

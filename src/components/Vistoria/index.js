@@ -1,12 +1,19 @@
-import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faCamera } from '@fortawesome/free-solid-svg-icons';
 import veiculoImg from '../../assets/img/veiculo.jpg';
 import './style.css';
+import { useEffect, useState } from 'react';
+import UploadImages from '../UploadImages';
 
-const Vistoria = () => (
+const Vistoria = () => {
+    const [imageURL, setImageURL] = useState(null);
+
+    useEffect(() => {
+        return () => {console.log('desmontou');URL.revokeObjectURL(imageURL)};
+    }, [imageURL])
+    
+    return (
     <>
     <h1>Lateral do Motorista</h1>
-    <img src={veiculoImg} alt="veiculo" />
+    <img src={(imageURL ?? veiculoImg)} alt="veiculo" className='veiculo-img' />
     <div className='info'>
         <h4>foto obrigatória</h4>
         <ul>
@@ -15,10 +22,8 @@ const Vistoria = () => (
         </ul>
     </div>
     <h2>tirar foto</h2>
-    <div className='camera'>
-        <FontAwesomeIcon icon={faCamera} size='3x' className='cameraIcon' />
-    </div>
+    <UploadImages imageURLCallback={setImageURL} />
     </>
-)
+)}
 
 export default Vistoria;
