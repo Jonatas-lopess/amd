@@ -7,7 +7,7 @@ const resource = fetchData();
 
 const Vistoria = () => {
     const data = resource.data.read().vistoriaEtapas;
-    const [currentStep, setCurrentStep] = useState(1);
+    const [currentStep, setCurrentStep] = useState(0);
     const mountStepsArray = () => {
         let arr = []
         for (let index = 0; index < data.length; index++) {
