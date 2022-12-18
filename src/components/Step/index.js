@@ -1,6 +1,6 @@
 import './style.css';
 import { useEffect, useState } from 'react';
-import UploadImages from '../UploadImages';
+import UploadFiles from '../UploadFiles';
 
 const Step = ({ data }) => {
     const [imageURL, setImageURL] = useState(null);
@@ -13,7 +13,18 @@ const Step = ({ data }) => {
     return (
     <div>
         <h1>{data.nome}</h1>
-        <img src={(imageURL ?? veiculoImg)} alt="veiculo" className='veiculo-img' />
+        {
+            imageURL ?
+                data.type === "imagem" ?
+                <img src={imageURL} alt="veiculo" className='veiculo-img' />
+                :
+                <video width={300} height={300} controls>
+                    <source src={imageURL} type="video/*" />
+                    "Seu brouser não suporta vídeos"
+                </video>
+            :
+            <img src={veiculoImg} alt="veiculo" className='veiculo-img' />
+        }
         <div className='info'>
             <h4>foto obrigatória</h4>
             <ul>
@@ -22,7 +33,7 @@ const Step = ({ data }) => {
             </ul>
         </div>
         <h2>tirar foto</h2>
-        <UploadImages imageURLCallback={setImageURL} />
+        <UploadFiles fileURLCallback={setImageURL} fileType={data.tipo} />
     </div>
 )}
 
