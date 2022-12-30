@@ -2,19 +2,6 @@ import logo from '../assets/img/logo.png';
 import './styles.css';
 
 const Layout = ({ stepNumber, currentStep, changeStep, children }) => {
-    const renderSteps = () => {
-        if(stepNumber === null || stepNumber === undefined) return undefined;
-        let steps = []
-        for (let index = 0; index < stepNumber; index++) {
-            steps.push(<li className={"step-item nav-item" + (index === currentStep ? " current" : "")} key={index}>
-                <a href={`#${index+1}`} onClick={() => changeStep(index)} className="nav-link" data-etapa={`${index+1}`}>
-                    <span className="texto-destaque">{index < 9 ? `0${index+1}` : index+1}</span>
-                </a>
-            </li>)
-        }
-        return steps;
-    }
-
     return (
         <>
             <header>
@@ -25,17 +12,11 @@ const Layout = ({ stepNumber, currentStep, changeStep, children }) => {
                         <div className="img-logo">
                             <img alt="Logo" src={logo} className="img-fluid"/>
                         </div>
-                        {
-                            renderSteps() === undefined ?
-                            <></>
-                            :
-                            <div className="horizontal-steps">
-                                <ul id="list-item" className="horizontal-steps-content">
-                                    { renderSteps() }
-                                </ul>
-                                <div className="process-line bg-destaque" style={{width: '0%'}}></div>
-                            </div>
-                        }
+                        <div className='etapas'>
+                            <span className={currentStep === 0 ? 'disable' : ''} onClick={currentStep !== 0 ? () => changeStep(currentStep - 1) : null}>&lt;</span>
+                            <h3>Etapa {(currentStep + 1)}/{stepNumber}</h3>
+                            <span className={currentStep === (stepNumber - 1) ? 'disable' : ''} onClick={currentStep !== (stepNumber - 1) ? () => changeStep(currentStep + 1) : null}>&gt;</span>
+                        </div>
                     </div>
                 </div>
             </header>

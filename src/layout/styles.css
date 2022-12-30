@@ -52,19 +52,6 @@ main {
     text-align: center;
 }
 
-@keyframes animation-steps-current {
-    from {
-        -webkit-transform:translate(-50%,-50%) scale(0);
-        transform:translate(-50%,-50%) scale(0);
-        opacity:1
-    }
-    to {
-        -webkit-transform:translate(-50%,-50%) scale(2);
-        transform:translate(-50%,-50%) scale(2);
-        opacity:0
-    }
-}
-
 header {
     position: fixed;
     height: 150px;
@@ -74,6 +61,20 @@ header {
     display: flex;
     flex-direction: column;
     background-color: #fafbfe;
+}
+
+.etapas{
+    margin-top: 1rem;
+    display: flex;
+    flex-direction: row;
+}
+
+.etapas h3{
+    margin: 0 1rem;
+}
+
+.disable{
+    color: lightgray;
 }
 
 .line-header {
@@ -112,94 +113,14 @@ header .content-header {
     margin-right: 40px;
 }
 
-.horizontal-steps {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    position: relative;
-    -webkit-box-orient: horizontal;
-    -webkit-box-direction: normal;
-    -ms-flex-direction: row;
-    flex-direction: row;
-    -webkit-box-pack: justify;
-    -ms-flex-pack: justify;
-    justify-content: space-between;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
-    width: 90%;
-    max-width: 500px;
-    padding-bottom: 1.5rem;
-    margin-bottom: 0.75rem;
-    margin-top: 1.5rem;
-}
-
-.horizontal-steps .horizontal-steps-content {
-    display: -webkit-box;
-    display: -ms-flexbox;
-    display: flex;
-    position: relative;
-    -webkit-box-orient: horizontal;
-    -webkit-box-direction: normal;
-    -ms-flex-direction: row;
-    flex-direction: row;
-    -webkit-box-pack: justify;
-    -ms-flex-pack: justify;
-    justify-content: space-between;
-    -webkit-box-align: center;
-    -ms-flex-align: center;
-    align-items: center;
-    width: 100%;
-}
-
 ul {
     margin: 0;
     padding: 0;
     list-style: none;
 }
 
-.horizontal-steps .horizontal-steps-content .step-item {
-    display: block;
-    position: relative;
-    bottom: calc(100% + 1em);
-    height: 8px;
-    width: 8px;
-    -webkit-box-sizing: content-box;
-    box-sizing: content-box;
-    background-color: currentColor;
-    border: 0.25em solid #fafbfe;
-    border-radius: 50%;
-    z-index: 5;
-    color: #BF1717;
-}
-
-.horizontal-steps .horizontal-steps-content .step-item:first-child {
-    margin-left: 0;
-}
-
-.horizontal-steps .process-line {
-    display: block;
-    position: absolute;
-    width: 50%;
-    height: 0.15em;
-}
-
 .img-logo img {
     max-height: 70px;
-}
-
-.horizontal-steps:before {
-    content: '';
-    display: block;
-    position: absolute;
-    width: 100%;
-    height: 0.15em;
-    background-color: #e3eaef;
-}
-
-.horizontal-steps .horizontal-steps-content .step-item:last-child {
-    margin-right: 0;
-    color: #0acf97;
 }
 
 .nav-link {
@@ -216,40 +137,9 @@ a {
     -webkit-text-decoration-skip: objects;
 }
 
-.horizontal-steps .horizontal-steps-content .step-item span {
-    position: absolute;
-    top: calc(100% + 0.5em);
-    left: 50%;
-    -webkit-transform: translateX(-50%);
-    transform: translateX(-50%);
-    white-space: nowrap;
-    font-size: 0.8rem;
-}
-
 .texto-destaque {
     color: #BF1717 !important;
     font-weight: bolder;
-}
-
-.horizontal-steps .horizontal-steps-content .step-item.current:before {
-    content: '';
-    display: block;
-    padding: 1em;
-    background-color: currentColor;
-    border-radius: 50%;
-    position: absolute;
-    left: 50%;
-    top: 50%;
-    opacity: 0;
-    z-index: -1;
-    -webkit-animation-name: animation-steps-current;
-    animation-name: animation-steps-current;
-    -webkit-animation-duration: 2s;
-    animation-duration: 2s;
-    -webkit-animation-iteration-count: infinite;
-    animation-iteration-count: infinite;
-    -webkit-animation-timing-function: ease-out;
-    animation-timing-function: ease-out;
 }
 
 .footer-checkout {
@@ -344,11 +234,6 @@ a {
         margin-top: 0.4rem;
         flex-direction: column;
         justify-content: center;
-    }
-
-    header .horizontal-steps {
-        margin-bottom: 0;
-        padding-bottom: 0;
     }
 
     .img-logo img {

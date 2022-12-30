@@ -1,0 +1,16 @@
+.main{
+    display: flex;
+    flex: 1;
+    background-color: #f3f3f3;
+    justify-content: center;
+    align-items: center;
+    padding: 1rem;
+}
+
+.error-container{
+    text-align: center;
+}
+
+.error-container h1{
+    color: grey;
+}

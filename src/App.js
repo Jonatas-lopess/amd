@@ -1,6 +1,7 @@
 import { Suspense } from 'react';
 import Loading from './components/Loading';
 import Vistoria from './components/Vistoria';
+import ErrorPage from './components/Error';
 
 const App = () => {
   const mobileCheck = () => {
@@ -11,10 +12,13 @@ const App = () => {
     return check;
   };
 
-  return (
+  return mobileCheck() ? (
     <Suspense fallback={<Loading />}>
       <Vistoria />
     </Suspense>
+  ) :
+  (
+    <ErrorPage message="Utilize um dispositivo mobile para prosseguir com a vistoria!" />
   )
 };
 
