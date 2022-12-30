@@ -3,7 +3,15 @@ import fetchData from '../../api/fetchData';
 import Layout from '../../layout';
 import Step from '../Step';
 
-const resource = fetchData();
+const body = {
+    "contrato": "907",
+    "userSession": {
+        "id": 10201
+    },
+    "functionPage": "vistoriaList"
+}
+
+const resource = fetchData(body);
 
 const Vistoria = () => {
     const data = resource.data.read().vistoriaEtapas;
@@ -22,7 +30,7 @@ const Vistoria = () => {
 
     return (
         <Layout stepNumber={stepsArray.length} currentStep={currentStep} changeStep={setCurrentStep}>
-            <Step data={stepsArray[currentStep]} key={currentStep} />
+            <Step data={stepsArray[currentStep]} id={currentStep} key={currentStep} />
         </Layout>
     )
 }

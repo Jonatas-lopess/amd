@@ -1,11 +1,4 @@
-const fetchData = () => {
-    const body = {
-        "contrato": "907",
-        "userSession": {
-            "id": 10201
-        },
-        "functionPage": "vistoriaList"
-    }
+const fetchData = (body) => {
     const options = {
         method: "POST",
         body: JSON.stringify(body)

@@ -3,9 +3,24 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import './style.css';
 
 const UploadFiles = ({ fileURLCallback, fileType }) => {
+    const getBase64 = file => {
+        return new Promise(resolve => {
+            let baseURL = "";
+            let reader = new FileReader();
+
+            reader.readAsDataURL(file);
+            reader.onload = () => {
+                baseURL = reader.result;
+                resolve(baseURL);
+            };
+        });
+    };
+
     function onFileChange(e) {
         if (e.target.files[0] === null || e.target.files[0] === undefined) return;
-        fileURLCallback(URL.createObjectURL(e.target.files[0]));
+
+        let file = e.target.files[0];
+        getBase64(file).then(res => fileURLCallback(res));
     }
 
     return (
