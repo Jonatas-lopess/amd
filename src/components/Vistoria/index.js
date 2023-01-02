@@ -2,13 +2,17 @@ import { useState } from 'react';
 import Layout from '../../layout';
 import Step from '../Step';
 import saveData from '../../api/saveData';
-import { useParams } from 'react-router-dom';
 import { getStorage } from '../CustomStorage';
+import { Alert, Snackbar } from '@mui/material';
 
 const Vistoria = ({ body }) => {
-    const data = body.data.read().vistoriaEtapas;
+    const vistoria = body.data.read()
+    const data = vistoria.vistoriaEtapas;
     const [currentStep, setCurrentStep] = useState(0);
-    const { id, contrato } = useParams();
+    const [snackStatus, setSnackStatus] = useState({
+        open: false,
+        message: ""
+    });
 
     const mountStepsArray = () => {
         let arr = []
@@ -23,14 +27,17 @@ const Vistoria = ({ body }) => {
     const stepsArray = mountStepsArray();
 
     const mountArrayData = (fileArray) => {
-        let arr = []
-        for (let index = 0; index < data.length; index++) {
-            let x = data[index].imagens;
-            x.map((e) => e.cache = fileArray[Number(e.id)])
-            arr.push(x)
-        }
+        vistoria.vistoriaEtapas.map((element) => {
+            element.imagens.map((e) => {
+                e.cache = fileArray[Number(e.id)]
 
-        return arr;
+                return e;
+            })
+
+            return element;
+        });
+
+        return vistoria;
     };
 
     const sendFiles = () => {
@@ -42,25 +49,33 @@ const Vistoria = ({ body }) => {
             fileArray.push(file)
         });
 
-        let arrayData = {
-            "contrato": contrato,
-            "userSession": {
-                "id": id
-            },
-            "vistoriaEtapas": [
-                {
-                    imagens: mountArrayData(fileArray)
-                }
-            ],
-            "functionPage": "vistoriaSave"
-        }
+        try {
+            if((fileArray.length + 1) !== stepsArray.length) throw Error("Preencha todas as etapas.");
 
-        saveData(arrayData);
+            let arrayData = mountArrayData(fileArray);
+            let response = saveData(arrayData);
+
+            console.log(response);
+        } catch (error) {
+            setSnackStatus({open: true, message: error.message});
+        }
     }
 
     return (
         <Layout stepNumber={stepsArray.length} currentStep={currentStep} changeStep={setCurrentStep}>
             <Step data={stepsArray[currentStep]} id={currentStep} submit={sendFiles} key={currentStep} />
+            <Snackbar
+                open={snackStatus.open}
+                autoHideDuration={5000}
+                anchorOrigin={{horizontal:'center', vertical:'bottom'}}
+                onClose={
+                    () => setSnackStatus(prev => ({...prev, open: false}))
+                }
+            >
+                <Alert variant='filled' severity='error' sx={{ width: '100%' }}>
+                    {snackStatus.message}
+                </Alert>
+            </Snackbar>
         </Layout>
     )
 }

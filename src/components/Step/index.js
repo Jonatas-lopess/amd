@@ -19,8 +19,8 @@ const Step = ({ data, id, submit }) => {
                 data.tipo === "imagem" ?
                 <img src={fileURL} alt="veiculo" className='veiculo-img' />
                 :
-                <video width={300} height={300} controls>
-                    <source src={fileURL} type="video/*" />
+                <video controls>
+                    <source src={fileURL} type="video/mp4" />
                     "Seu brouser não suporta vídeos"
                 </video>
             :
