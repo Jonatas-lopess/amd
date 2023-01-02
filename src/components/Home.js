@@ -26,7 +26,7 @@ const Home = () => {
 
     return (
     <Suspense fallback={<Loading />}>
-        <ErrorBoundary message="Erro ao carregar dados da vistoria">
+        <ErrorBoundary message="Ocorreu um erro!">
             <Vistoria body={fetchData(data)} />
         </ErrorBoundary>
     </Suspense>

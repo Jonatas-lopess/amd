@@ -1,4 +1,5 @@
 const saveData = (data) => {
+    localStorage.clear();
     console.log(data);
 };
 

@@ -1,30 +1,36 @@
 import './style.css';
 import { useEffect, useState } from 'react';
 import UploadFiles from '../UploadFiles';
+import { setStorage, getStorage } from '../CustomStorage';
 
-const Step = ({ data, id }) => {
-    const [fileURL, setFileURL] = useState(sessionStorage.getItem(`file_${id}`));
+const Step = ({ data, id, submit }) => {
+    const [fileURL, setFileURL] = useState(getStorage(`file_${id}`));
     const veiculoImg = `https://teste.sivisweb.com.br${data.imagem}`;
 
     useEffect(() => {
-        return () => sessionStorage.setItem(`file_${id}`, fileURL);
+        return () => setStorage(`file_${id}`, fileURL);
     }, [fileURL, id])
     
     return (
-        <div>
-            <h1>{data.nome}</h1>
-            {
-                fileURL && fileURL !== 'null' ?
-                    data.tipo === "imagem" ?
-                    <img src={fileURL} alt="veiculo" className='veiculo-img' />
-                    :
-                    <video width={300} height={300} controls>
-                        <source src={fileURL} type="video/*" />
-                        "Seu brouser não suporta vídeos"
-                    </video>
+        <>
+        <h1>{data.nome}</h1>
+        {
+            fileURL ?
+                data.tipo === "imagem" ?
+                <img src={fileURL} alt="veiculo" className='veiculo-img' />
                 :
-                <img src={veiculoImg} alt="veiculo" className='veiculo-img' />
-            }
+                <video width={300} height={300} controls>
+                    <source src={fileURL} type="video/*" />
+                    "Seu brouser não suporta vídeos"
+                </video>
+            :
+            <img src={veiculoImg} alt="veiculo" className='veiculo-img' />
+        }
+        {
+            data.tipo === "button" ?
+            <button onClick={submit}>Finalizar</button>
+            :
+            <>
             <div className='info'>
                 <h4>foto obrigatória</h4>
                 <ul>
@@ -34,7 +40,9 @@ const Step = ({ data, id }) => {
             </div>
             <h2>tirar foto</h2>
             <UploadFiles fileURLCallback={setFileURL} fileType={data.tipo} />
-        </div>
+            </>
+        }
+        </>
     )
 }
 
