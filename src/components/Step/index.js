@@ -7,7 +7,6 @@ const Step = ({ data, id }) => {
     const veiculoImg = `https://teste.sivisweb.com.br${data.imagem}`;
 
     useEffect(() => {
-        console.log(fileURL)
         return () => sessionStorage.setItem(`file_${id}`, fileURL);
     }, [fileURL, id])
     

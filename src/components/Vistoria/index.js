@@ -1,20 +1,9 @@
 import { useState } from 'react';
-import fetchData from '../../api/fetchData';
 import Layout from '../../layout';
 import Step from '../Step';
 
-const body = {
-    "contrato": "907",
-    "userSession": {
-        "id": 10201
-    },
-    "functionPage": "vistoriaList"
-}
-
-const resource = fetchData(body);
-
-const Vistoria = () => {
-    const data = resource.data.read().vistoriaEtapas;
+const Vistoria = ({ body }) => {
+    const data = body.data.read().vistoriaEtapas;
     const [currentStep, setCurrentStep] = useState(0);
     const mountStepsArray = () => {
         let arr = []

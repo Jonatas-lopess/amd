@@ -1,7 +1,9 @@
 import { Suspense } from 'react';
-import Loading from '../components/Loading';
-import Vistoria from '../components/Vistoria';
-import ErrorPage from '../components/Error';
+import Loading from './Loading';
+import Vistoria from './Vistoria';
+import { ErrorBoundary } from './Error';
+import { useParams } from 'react-router-dom';
+import fetchData from '../api/fetchData';
 
 const mobileCheck = () => {
     let check = false;
@@ -11,10 +13,24 @@ const mobileCheck = () => {
     return check;
 };
 
-const Home = () => (
-        <Suspense fallback={<Loading />}>
-            <Vistoria />
-        </Suspense>
+const Home = () => {
+    const { id, contrato } = useParams();
+    
+    const data = {
+        "contrato": contrato,
+        "userSession": {
+            "id": id
+        },
+        "functionPage": "vistoriaList"
+    }
+
+    return (
+    <Suspense fallback={<Loading />}>
+        <ErrorBoundary message="Erro ao carregar dados da vistoria">
+            <Vistoria body={fetchData(data)} />
+        </ErrorBoundary>
+    </Suspense>
     )
+}
 
 export default Home;

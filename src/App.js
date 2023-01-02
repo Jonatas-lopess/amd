@@ -1,9 +1,11 @@
 import { Route, Routes } from 'react-router-dom';
-import Home from './pages/Home';
+import { ErrorPage } from './components/Error';
+import Home from './components/Home';
 
 const App = () => {
   return <Routes>
-    <Route path='/' element={<Home />} />
+    <Route path='/:id/:contrato' element={<Home />} />
+    <Route path='*' element={<ErrorPage message={"Error 404 - Page not found"} />} />
   </Routes>
 };
 
