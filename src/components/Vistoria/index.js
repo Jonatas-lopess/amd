@@ -46,7 +46,9 @@ const Vistoria = ({ body }) => {
             if((i+1) === stepsArray.length) return;
 
             let file = getStorage(`file_${i}`);
-            fileArray.push(file)
+            if (file === null) return;
+
+            fileArray.push(file);
         });
 
         try {
@@ -62,8 +64,8 @@ const Vistoria = ({ body }) => {
     }
 
     return (
-        <Layout stepNumber={stepsArray.length} currentStep={currentStep} changeStep={setCurrentStep}>
-            <Step data={stepsArray[currentStep]} id={currentStep} submit={sendFiles} key={currentStep} />
+        <Layout info={vistoria} >
+            <Step data={stepsArray[currentStep]} total={stepsArray.length} changeStep={setCurrentStep} submit={sendFiles} key={currentStep} />
             <Snackbar
                 open={snackStatus.open}
                 autoHideDuration={5000}

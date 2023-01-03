@@ -1,6 +1,5 @@
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import './style.css';
 
 const UploadFiles = ({ fileURLCallback, fileType }) => {
     const getBase64 = file => {
@@ -27,7 +26,7 @@ const UploadFiles = ({ fileURLCallback, fileType }) => {
         <div className="camera">
             <label htmlFor="file-upload">
                 <input id="file-upload" type="file" accept={fileType === "imagem" ? "image/*" : "video/*"} onChange={onFileChange} capture="environment" hidden={true} />
-                <FontAwesomeIcon icon={faCamera} size='3x' className="cameraIcon" />
+                <FontAwesomeIcon icon={faCamera} size='4x' className="camera-icon" />
             </label>
         </div>
     );

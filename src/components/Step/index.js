@@ -1,9 +1,9 @@
-import './style.css';
 import { useEffect, useState } from 'react';
 import UploadFiles from '../UploadFiles';
 import { setStorage, getStorage } from '../CustomStorage';
 
-const Step = ({ data, id, submit }) => {
+const Step = ({ data, total, changeStep, submit }) => {
+    const id = Number(data.id);
     const [fileURL, setFileURL] = useState(getStorage(`file_${id}`));
     const veiculoImg = `https://teste.sivisweb.com.br${data.imagem}`;
 
@@ -13,6 +13,11 @@ const Step = ({ data, id, submit }) => {
     
     return (
         <>
+        <div className='etapas'>
+            <span className={id === 0 ? 'disable' : ''} onClick={id !== 0 ? () => changeStep(id - 1) : null}>&lt;</span>
+            <h3>Etapa {(id + 1)}/{total}</h3>
+            <span className={id === (total - 1) ? 'disable' : ''} onClick={id !== (total - 1) ? () => changeStep(id + 1) : null}>&gt;</span>
+        </div>
         <h1>{data.nome}</h1>
         {
             fileURL ?
@@ -35,7 +40,7 @@ const Step = ({ data, id, submit }) => {
                 <h4>foto obrigatória</h4>
                 <ul>
                     <li>Na foto deve aparecer toda lateral do motorista;</li>
-                    <li><span>Atenção:</span> Os vidros devem estar fechados.</li>
+                    <li>Os vidros devem estar fechados.</li>
                 </ul>
             </div>
             <h2>tirar foto</h2>
