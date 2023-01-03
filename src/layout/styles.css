@@ -130,8 +130,13 @@ header .container-header {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
+    flex-wrap: wrap;
     width: 100%;
-    margin-top: 1rem;
+    margin-top: .5rem;
+}
+
+.info-row p {
+    margin-right: .5em;
 }
 
 .info-row span {
@@ -156,6 +161,7 @@ a {
     font-size: 0.875rem;
     margin-right: 0;
     margin-left: 0;
+    margin-top: 1rem;
     font-family: 'OpenSans';
     text-align: center;
 }
@@ -216,6 +222,7 @@ h1{
 
 .veiculo-img{
     max-height: 185px;
+    margin: 0 1rem;
 }
 
 .info{
