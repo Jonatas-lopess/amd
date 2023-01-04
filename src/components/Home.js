@@ -1,7 +1,7 @@
 import { Suspense } from 'react';
 import Loading from './Loading';
 import Vistoria from './Vistoria';
-import { ErrorBoundary } from './Error';
+import { ErrorBoundary, ErrorPage } from './Error';
 import { useParams } from 'react-router-dom';
 import fetchData from '../api/fetchData';
 
@@ -24,12 +24,14 @@ const Home = () => {
         "functionPage": "vistoriaList"
     }
 
-    return (
-    <Suspense fallback={<Loading />}>
-        <ErrorBoundary message="Ocorreu um erro!">
-            <Vistoria body={fetchData(data)} />
-        </ErrorBoundary>
-    </Suspense>
+    return mobileCheck() ? (
+        <Suspense fallback={<Loading />}>
+            <ErrorBoundary message="Ocorreu um erro!">
+                <Vistoria body={fetchData(data)} head={data} />
+            </ErrorBoundary>
+        </Suspense>
+    ) : (
+        <ErrorPage message="Utilize um dispositivo móvel para prosseguir com a vistoria." />
     )
 }
 

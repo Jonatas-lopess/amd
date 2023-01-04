@@ -5,12 +5,13 @@ import saveData from '../../api/saveData';
 import { getStorage } from '../CustomStorage';
 import { Alert, Snackbar } from '@mui/material';
 
-const Vistoria = ({ body }) => {
-    const vistoria = body.data.read()
+const Vistoria = ({ body, head }) => {
+    const vistoria = body.data.read();
     const data = vistoria.vistoriaEtapas;
     const [currentStep, setCurrentStep] = useState(0);
     const [snackStatus, setSnackStatus] = useState({
         open: false,
+        type: 'error',
         message: ""
     });
 
@@ -43,8 +44,6 @@ const Vistoria = ({ body }) => {
     const sendFiles = () => {
         let fileArray = [];
         stepsArray.forEach((_, i) => {
-            if((i+1) === stepsArray.length) return;
-
             let file = getStorage(`file_${i}`);
             if (file === null) return;
 
@@ -53,13 +52,18 @@ const Vistoria = ({ body }) => {
 
         try {
             if((fileArray.length + 1) !== stepsArray.length) throw Error("Preencha todas as etapas.");
-
-            let arrayData = mountArrayData(fileArray);
-            let response = saveData(arrayData);
+            
+            head.functionPage = "vistoriaSave";
+            let arrayData = Object.assign({}, head, mountArrayData(fileArray));
+            let response = saveData(arrayData).then(res => res.json());
 
             console.log(response);
+
+            localStorage.clear();
+            sessionStorage.clear();
+            setSnackStatus({open: true, type: 'success', message: "Vistoria enviada com sucesso!"})
         } catch (error) {
-            setSnackStatus({open: true, message: error.message});
+            setSnackStatus({open: true, type: 'error', message: error.message});
         }
     }
 
@@ -74,7 +78,7 @@ const Vistoria = ({ body }) => {
                     () => setSnackStatus(prev => ({...prev, open: false}))
                 }
             >
-                <Alert variant='filled' severity='error' sx={{ width: '100%' }}>
+                <Alert variant='filled' severity={snackStatus.type} sx={{ width: '100%' }}>
                     {snackStatus.message}
                 </Alert>
             </Snackbar>

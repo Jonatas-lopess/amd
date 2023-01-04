@@ -1,13 +1,15 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import UploadFiles from '../UploadFiles';
 import { setStorage, getStorage } from '../CustomStorage';
 
 const Step = ({ data, total, changeStep, submit }) => {
     const id = Number(data.id);
     const [fileURL, setFileURL] = useState(getStorage(`file_${id}`));
+    const videoRef = useRef();
     const veiculoImg = `https://teste.sivisweb.com.br${data.imagem}`;
 
     useEffect(() => {
+        videoRef.current?.load();
         return () => setStorage(`file_${id}`, fileURL);
     }, [fileURL, id])
     
@@ -24,12 +26,18 @@ const Step = ({ data, total, changeStep, submit }) => {
                 data.tipo === "imagem" ?
                 <img src={fileURL} alt="veiculo" className='veiculo-img' />
                 :
-                <video controls>
+                <video ref={videoRef} controls>
                     <source src={fileURL} type="video/mp4" />
                     "Seu brouser não suporta vídeos"
                 </video>
             :
-            <img src={veiculoImg} alt="veiculo" className='veiculo-img' />
+                veiculoImg.includes(".mp4") ? 
+                    <video ref={videoRef} controls>
+                        <source src={veiculoImg} type="video/mp4" />
+                        "Seu brouser não suporta vídeos"
+                    </video>
+                :
+                    <img src={veiculoImg} alt="veiculo" className='veiculo-img' />
         }
         {
             data.tipo === "button" ?
@@ -43,7 +51,7 @@ const Step = ({ data, total, changeStep, submit }) => {
                     <li>Os vidros devem estar fechados.</li>
                 </ul>
             </div>
-            <h2>tirar foto</h2>
+            {data.tipo === 'imagem' ? <h2>tirar foto</h2> : <h2>gravar vídeo</h2>}
             <UploadFiles fileURLCallback={setFileURL} fileType={data.tipo} />
             </>
         }
