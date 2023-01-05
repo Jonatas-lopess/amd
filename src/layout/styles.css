@@ -222,7 +222,11 @@ h1{
 
 .veiculo-img{
     max-height: 185px;
-    margin: 0 1rem;
+    max-width: 80%;
+    border: .5rem solid transparent;
+    background-color: transparent;
+    border-radius: 28px;
+    border-image: url('../assets/img/img-back.jpeg') 13 fill;
 }
 
 .info{

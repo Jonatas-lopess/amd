@@ -26,13 +26,13 @@ const Step = ({ data, total, changeStep, submit }) => {
                 data.tipo === "imagem" ?
                 <img src={fileURL} alt="veiculo" className='veiculo-img' />
                 :
-                <video ref={videoRef} controls>
+                <video ref={videoRef} controls className='veiculo-img'>
                     <source src={fileURL} type="video/mp4" />
                     "Seu brouser não suporta vídeos"
                 </video>
             :
                 veiculoImg.includes(".mp4") ? 
-                    <video ref={videoRef} controls>
+                    <video ref={videoRef} controls className='veiculo-img'>
                         <source src={veiculoImg} type="video/mp4" />
                         "Seu brouser não suporta vídeos"
                     </video>
