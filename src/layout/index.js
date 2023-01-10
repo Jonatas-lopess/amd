@@ -2,7 +2,6 @@ import logo from '../assets/img/logo.png';
 import './styles.css';
 
 const Layout = ({ info, children }) => {
-    console.log(info)
     return (
         <>
         <header>
