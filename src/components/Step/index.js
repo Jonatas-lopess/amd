@@ -20,7 +20,6 @@ const Step = ({ data, total, changeStep, submit }) => {
             <h3>Etapa {(id + 1)}/{total}</h3>
             <span className={id === (total - 1) ? 'disable' : ''} onClick={id !== (total - 1) ? () => changeStep(id + 1) : null}>&gt;</span>
         </div>
-        <h1>{data.nome}</h1>
         {
             fileURL ?
                 data.tipo === "imagem" ?
@@ -39,6 +38,7 @@ const Step = ({ data, total, changeStep, submit }) => {
                 :
                     <img src={veiculoImg} alt="veiculo" className='veiculo-img' />
         }
+        <h1>{data.nome}</h1>
         {
             data.tipo === "button" ?
             <button onClick={submit}>Finalizar</button>

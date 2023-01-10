@@ -2,6 +2,7 @@ import logo from '../assets/img/logo.png';
 import './styles.css';
 
 const Layout = ({ info, children }) => {
+    console.log(info)
     return (
         <>
         <header>
@@ -11,12 +12,10 @@ const Layout = ({ info, children }) => {
                     <img alt="Logo" src={logo} className="img-fluid"/>
                 </div>
                 <div className='infos'>
-                    <h3>Automóvel</h3>
-                    <p>Vistoria <span className='cap'>{info.tipo}</span></p>
-                    <div className='info-row'>
-                        <p>Placa: <span>{info.placa}</span></p>
-                        <p>Associado: <span>{info.razao_social}</span></p>
-                   </div>
+                    <h3>CARRO</h3>
+                    <p>Vistoria: <span className='cap'>{info.tipo}-CARRO</span></p>
+                    <p>Associado: <span>{info.razao_social}</span></p>
+                    <p>Placa: <span>{info.placa}</span></p>
                 </div>
             </div>
         </header>

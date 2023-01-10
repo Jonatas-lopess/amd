@@ -57,13 +57,13 @@ header {
 }
 
 main {
-    margin-top: 120px;
+    margin-top: 125px;
     flex: 1;
     text-align: center;
 }
 
 .etapas{
-    margin-top: 1rem;
+    margin: 1rem 0;
     display: flex;
     flex-direction: row;
     justify-content: center;
@@ -98,7 +98,7 @@ main {
 
 header .container-header {
     display: flex;
-    padding: 1rem;
+    padding: .8rem;
     flex-direction: row;
 }
 
@@ -107,10 +107,9 @@ header .container-header {
 }
 
 .infos {
-    font-size: smaller;
+    font-size: small;
     width: 100%;
-    margin-left: 1rem;
-    color: #3f4447;
+    margin-left: .5rem;
     font-weight: bolder;
 }
 
@@ -120,10 +119,11 @@ header .container-header {
 
 .infos span {
     color: inherit;
+    font-weight: normal;
 }
 
 .cap {
-    text-transform: lowercase;
+    text-transform: uppercase;
 }
 
 .info-row {
@@ -217,6 +217,7 @@ a {
 
 h1{
     font-weight: bolder;
+    font-size: x-large;
     margin: 1rem 0;
 }
 
@@ -225,13 +226,12 @@ h1{
     max-width: 80%;
     border: .5rem solid transparent;
     background-color: transparent;
-    border-radius: 28px;
+    border-radius: 25px;
     border-image: url('../assets/img/img-back.jpeg') 13 fill;
 }
 
 .info{
     text-align: start;
-    margin-top: 2rem;
 }
 
 video{
@@ -240,7 +240,7 @@ video{
 }
 
 h4{
-    background-color: #999;
+    background-color: #BF1717;
     color: white;
     width: fit-content;
     padding: .5rem 2rem;
