@@ -15,7 +15,6 @@ const mobileCheck = () => {
 
 const Home = () => {
     const { id, contrato } = useParams();
-    console.log(navigator.mediaDevices == true);
     
     const data = {
         "contrato": contrato,

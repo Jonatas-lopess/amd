@@ -2,6 +2,25 @@ import { faCamera } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const UploadFiles = ({ fileURLCallback, fileType }) => {
+    const rotateImage = (imageBase64, callback) => {
+        var img = new Image();
+        img.src = imageBase64;
+        img.onload = () => {
+            if (img.height > img.width) {
+                var canvas = document.createElement("canvas");
+                canvas.width = img.height;
+                canvas.height = img.width;
+                var ctx = canvas.getContext("2d");
+                ctx.setTransform(1, 0, 0, 1, img.height / 2, img.height / 2);
+                ctx.rotate(90 * Math.PI / 180);
+                ctx.drawImage(img, -img.height / 2, -img.height / 2);
+                callback(canvas.toDataURL("image/jpeg"));
+            } else {
+                callback(imageBase64);
+            }
+        };
+    }
+
     const getBase64 = file => {
         return new Promise(resolve => {
             let baseURL = "";
@@ -10,7 +29,7 @@ const UploadFiles = ({ fileURLCallback, fileType }) => {
             reader.readAsDataURL(file);
             reader.onload = () => {
                 baseURL = reader.result;
-                resolve(baseURL);
+                rotateImage(baseURL, resolve);
             };
         });
     };
