@@ -11,9 +11,9 @@ const UploadFiles = ({ fileURLCallback, fileType }) => {
                 canvas.width = img.height;
                 canvas.height = img.width;
                 var ctx = canvas.getContext("2d");
-                ctx.setTransform(1, 0, 0, 1, img.height / 2, img.height / 2);
+                ctx.setTransform(1, 0, 0, 1, img.height / 2, img.width / 2);
                 ctx.rotate(270 * Math.PI / 180);
-                ctx.drawImage(img, -img.height / 5, -img.height / 2);
+                ctx.drawImage(img, -img.width / 2, -img.height / 2);
                 callback(canvas.toDataURL("image/jpeg"));
             } else {
                 callback(imageBase64);
