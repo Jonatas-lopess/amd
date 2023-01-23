@@ -1,24 +1,15 @@
 import { useState } from 'react';
-import Layout from '../../layout';
 import Step from '../Step';
 import saveData from '../../api/saveData';
 import { getStorage } from '../CustomStorage';
-import { Alert, Snackbar } from '@mui/material';
 
-const Vistoria = ({ body, head }) => {
-    const vistoria = body.data.read();
-    const data = vistoria.vistoriaEtapas;
+const Vistoria = ({ vistoria, setSnackStatus, head }) => {
     const [currentStep, setCurrentStep] = useState(0);
-    const [snackStatus, setSnackStatus] = useState({
-        open: false,
-        type: 'error',
-        message: ""
-    });
 
     const mountStepsArray = () => {
         let arr = []
-        for (let index = 0; index < data.length; index++) {
-            let element = data[index].imagens;
+        for (let index = 0; index < vistoria.vistoriaEtapas.length; index++) {
+            let element = vistoria.vistoriaEtapas[index].imagens;
             for (let i = 0; i < element.length; i++) {
                 arr.push(element[i]);
             }          
@@ -67,23 +58,7 @@ const Vistoria = ({ body, head }) => {
         }
     }
 
-    return (
-        <Layout info={vistoria} >
-            <Step data={stepsArray[currentStep]} total={stepsArray.length} changeStep={setCurrentStep} submit={sendFiles} key={currentStep} />
-            <Snackbar
-                open={snackStatus.open}
-                autoHideDuration={5000}
-                anchorOrigin={{horizontal:'center', vertical:'bottom'}}
-                onClose={
-                    () => setSnackStatus(prev => ({...prev, open: false}))
-                }
-            >
-                <Alert variant='filled' severity={snackStatus.type} sx={{ width: '100%' }}>
-                    {snackStatus.message}
-                </Alert>
-            </Snackbar>
-        </Layout>
-    )
+    return <Step data={stepsArray[currentStep]} total={stepsArray.length} changeStep={setCurrentStep} submit={sendFiles} key={currentStep} />
 }
 
 export default Vistoria;

@@ -16,7 +16,7 @@ const Step = ({ data, total, changeStep, submit }) => {
     return (
         <>
         <div className='etapas'>
-            <span className={id === 0 || !fileURL ? 'disable' : ''} onClick={id !== 0 && fileURL ? () => changeStep(id - 1) : null}>&lt;</span>
+            <span className={id === 0 || (!fileURL && data.tipo !== "button") ? 'disable' : ''} onClick={id !== 0 && (fileURL || data.tipo === "button") ? () => changeStep(id - 1) : null}>&lt;</span>
             <h3>Etapa {(id + 1)}/{total}</h3>
             <span className={id === (total - 1) || !fileURL ? 'disable' : ''} onClick={id !== (total - 1) && fileURL ? () => changeStep(id + 1) : null}>&gt;</span>
         </div>

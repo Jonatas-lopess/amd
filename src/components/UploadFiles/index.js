@@ -2,23 +2,32 @@ import { faCamera } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 const UploadFiles = ({ fileURLCallback, fileType }) => {
-    const rotateImage = (imageBase64, callback) => {
-        var img = new Image();
-        img.src = imageBase64;
-        img.onload = () => {
-            if (img.height > img.width) {
-                var canvas = document.createElement("canvas");
-                canvas.width = img.height;
-                canvas.height = img.width;
-                var ctx = canvas.getContext("2d");
-                ctx.setTransform(1, 0, 0, 1, img.height / 2, img.width / 2);
-                ctx.rotate(270 * Math.PI / 180);
-                ctx.drawImage(img, -img.width / 2, -img.height / 2);
-                callback(canvas.toDataURL("image/jpeg"));
-            } else {
-                callback(imageBase64);
-            }
-        };
+    const rotateImage = (fileBase64, callback) => {
+        if (fileType === "imagem") {        
+            var img = new Image();
+            img.src = fileBase64;
+            img.onload = () => {
+                if (img.height > img.width) {
+                    var canvas = document.createElement("canvas");
+                    canvas.width = img.height;
+                    canvas.height = img.width;
+                    var ctx = canvas.getContext("2d");
+                    ctx.setTransform(1, 0, 0, 1, img.height / 2, img.width / 2);
+                    ctx.rotate(270 * Math.PI / 180);
+                    ctx.drawImage(img, -img.width / 2, -img.height / 2);
+                    callback(canvas.toDataURL("image/jpeg"));
+                } else {
+                    callback(fileBase64);
+                }
+            };
+        } else {
+            var video = document.createElement("video");
+            video.src = fileBase64;
+            video.onloadedmetadata = () => {
+                console.log(video.videoHeight, video.videoWidth)
+                callback(fileBase64);
+            };
+        }
     }
 
     const getBase64 = file => {
