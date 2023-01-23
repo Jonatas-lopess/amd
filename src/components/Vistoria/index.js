@@ -2,9 +2,16 @@ import { useState } from 'react';
 import Step from '../Step';
 import saveData from '../../api/saveData';
 import { getStorage } from '../CustomStorage';
+import CustomSnackbar from '../CustomSnackbar';
 
-const Vistoria = ({ vistoria, setSnackStatus, head }) => {
+const Vistoria = ({ vistoria, head }) => {
     const [currentStep, setCurrentStep] = useState(0);
+    const [snack, setSnack] = useState({
+        message: '',
+        status: false,
+        type: 'error'
+    });
+
 
     const mountStepsArray = () => {
         let arr = []
@@ -52,13 +59,24 @@ const Vistoria = ({ vistoria, setSnackStatus, head }) => {
 
             localStorage.clear();
             sessionStorage.clear();
-            setSnackStatus({open: true, type: 'success', message: "Vistoria enviada com sucesso!"})
+            setSnack({
+                type: 'success',
+                message: 'Vistoria enviada com sucesso!',
+                status: true
+            });
         } catch (error) {
-            setSnackStatus({open: true, type: 'error', message: error.message});
+            setSnack({
+                type: 'error',
+                message: error.message,
+                status: true
+            });
         }
     }
 
-    return <Step data={stepsArray[currentStep]} total={stepsArray.length} changeStep={setCurrentStep} submit={sendFiles} key={currentStep} />
+    return <>
+        <Step data={stepsArray[currentStep]} total={stepsArray.length} changeStep={setCurrentStep} submit={sendFiles} key={currentStep} />
+        <CustomSnackbar content={snack} setStatus={setSnack} />
+    </>
 }
 
 export default Vistoria;
