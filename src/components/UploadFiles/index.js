@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import CustomSnackbar from "../CustomSnackbar";
 
-const UploadFiles = ({ fileURLCallback, fileType }) => {
+const UploadFiles = ({ file ,fileURLCallback, fileType, changeStep }) => {
     const [snack, setSnack] = useState({
         message: '',
         status: false,
@@ -19,7 +19,7 @@ const UploadFiles = ({ fileURLCallback, fileType }) => {
             reader.onload = () => {
                 baseURL = reader.result;
 
-                if (fileType === "imagem") {        
+                if (fileType === "imagem") {
                     var img = new Image();
                     img.src = baseURL;
                     img.onload = () => {
@@ -31,7 +31,7 @@ const UploadFiles = ({ fileURLCallback, fileType }) => {
                     var video = document.createElement("video");
                     video.src = baseURL;
                     video.onloadedmetadata = () => {
-                        if (video.videoHeight > video.videoWidth) reject("Vídeo me modo retrato.");
+                        if (video.videoHeight > video.videoWidth) reject("Vídeo em modo retrato.");
         
                         resolve(baseURL);
                     };
@@ -50,15 +50,27 @@ const UploadFiles = ({ fileURLCallback, fileType }) => {
         });
     }
 
-    return (
-        <div className="camera">
-            <label htmlFor="file-upload">
-                <input id="file-upload" type="file" accept={fileType === "imagem" ? "image/*" : "video/*"} onChange={onFileChange} capture="environment" hidden={true} />
-                <FontAwesomeIcon icon={faCamera} size='4x' className="camera-icon" />
-            </label>
-            <CustomSnackbar content={snack} setStatus={setSnack}/>
-        </div>
-    );
+    return <>
+        {fileType === 'imagem' ? <h2>tirar foto</h2> : <h2>gravar vídeo</h2>}
+        {
+        file
+         ?  <div className="file-buttons">
+                <label htmlFor="file-upload">
+                    <input id="file-upload" type="file" accept={fileType === "imagem" ? "image/*" : "video/*"} onChange={onFileChange} capture="environment" hidden={true} />          
+                    Repetir
+                </label>
+                <button onClick={() => changeStep(prev => prev + 1)}>Próxima</button>
+                <CustomSnackbar content={snack} setStatus={setSnack}/>
+            </div>
+         :  <div className="camera">
+                <label htmlFor="file-upload">
+                    <input id="file-upload" type="file" accept={fileType === "imagem" ? "image/*" : "video/*"} onChange={onFileChange} capture="environment" hidden={true} />
+                    <FontAwesomeIcon icon={faCamera} size='4x' className="camera-icon" />
+                </label>
+                <CustomSnackbar content={snack} setStatus={setSnack}/>
+            </div>
+        }
+    </>
 }
 
 export default UploadFiles;

@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Step from '../Step';
 import saveData from '../../api/saveData';
 import { getStorage } from '../CustomStorage';
@@ -11,7 +11,17 @@ const Vistoria = ({ vistoria, head }) => {
         status: false,
         type: 'error'
     });
+    const [time, setTime] = useState({
+        initial: undefined,
+        final: undefined
+    })
 
+    useEffect(() => {
+        setTime(({
+            final: undefined,
+            initial: Date.now()
+        }));
+    }, []);
 
     const mountStepsArray = () => {
         let arr = []
@@ -51,11 +61,14 @@ const Vistoria = ({ vistoria, head }) => {
         try {
             if((fileArray.length + 1) !== stepsArray.length) throw Error("Preencha todas as etapas.");
             
+            setTime(prev => ({
+                ...prev,
+                final: Date.now()
+            }));
             head.functionPage = "vistoriaSave";
             let arrayData = Object.assign({}, head, mountArrayData(fileArray));
+            
             let response = saveData(arrayData).then(res => res.json());
-
-            console.log(response);
 
             localStorage.clear();
             sessionStorage.clear();

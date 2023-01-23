@@ -36,12 +36,15 @@ const Step = ({ data, total, changeStep, submit }) => {
                         "Seu brouser não suporta vídeos"
                     </video>
                 :
-                    <img src={veiculoImg} alt="veiculo" className='veiculo-img' />
+                    <img src={veiculoImg} alt="veiculo" className={data.tipo === 'button' ? 'veiculo-img no-border' : 'veiculo-img'} />
         }
         <h1>{data.nome}</h1>
         {
             data.tipo === "button" ?
-            <button onClick={submit}>Finalizar</button>
+            <>
+                <p>Caso o Veículo possua algum amassado, arranhado mais profundo, pintura queimada, vidros, faróis ou retrovisores quebrados, não deixe de informar a seguir no botão <b>DANOS E AVARIAS</b></p>
+                <button onClick={submit}>Finalizar</button>
+            </>
             :
             <>
             <div className='info'>
@@ -51,8 +54,7 @@ const Step = ({ data, total, changeStep, submit }) => {
                     <li>Os vidros devem estar fechados.</li>
                 </ul>
             </div>
-            {data.tipo === 'imagem' ? <h2>tirar foto</h2> : <h2>gravar vídeo</h2>}
-            <UploadFiles fileURLCallback={setFileURL} fileType={data.tipo} />
+            <UploadFiles file={fileURL} fileURLCallback={setFileURL} fileType={data.tipo} changeStep={changeStep} />
             </>
         }
         </>

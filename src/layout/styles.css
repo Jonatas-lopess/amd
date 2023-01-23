@@ -159,9 +159,7 @@ a {
     background: #E8E8E8;
     width: 100%;
     font-size: 0.875rem;
-    margin-right: 0;
-    margin-left: 0;
-    margin-top: 1rem;
+    margin: 0;
     font-family: 'OpenSans';
     text-align: center;
 }
@@ -230,6 +228,10 @@ h1{
     border-image: url('../assets/img/img-back.jpeg') 13 fill;
 }
 
+.no-border {
+    border: none
+}
+
 .info{
     text-align: start;
 }
@@ -261,12 +263,16 @@ main span{
     font-weight: bolder;
 }
 
+main p {
+    margin: auto 1rem;
+}
+
 h2{
     text-transform: uppercase;
 }
 
 button{
-    background-color: #0b028b;
+    background-color: red;
     border: none;
     color: white;
     padding: 15px 32px;
@@ -275,16 +281,16 @@ button{
     font-weight: bold;
     border-radius: 8px;
     display: block;
-    margin: 2rem auto;
+    margin: 1.5rem auto;
 }
 
 button:active{
-    background-color: #050052;
+    background-color: rgb(78, 0, 0);
 }
 
 .camera{
     width: fit-content;
-    margin: auto;
+    margin: .5rem auto;
 }
 
 .camera label{
@@ -355,6 +361,31 @@ button:active{
 .menu span {
     text-transform: uppercase;
     font-size: large;
+}
+
+.file-buttons {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin: 1rem 2.5rem;
+}
+
+.file-buttons button {
+    margin: 0;
+    padding: 10px 35px;
+    background-color: #333333;
+}
+
+.file-buttons label {
+    background-color: #fafbfe;
+    color: #484848;
+    border: 2px solid #484848;
+    padding: 10px 35px;
+    text-decoration: none;
+    font-size: 16px;
+    font-weight: bold;
+    border-radius: 8px;
+    display: block;
 }
 
 @media (min-width: 576px) {
