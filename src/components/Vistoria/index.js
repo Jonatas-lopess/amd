@@ -3,24 +3,20 @@ import Step from '../Step';
 import saveData from '../../api/saveData';
 import { getStorage } from '../CustomStorage';
 import CustomSnackbar from '../CustomSnackbar';
+import useTimer from '../Timer';
 
-const Vistoria = ({ vistoria, head }) => {
+const Vistoria = ({ vistoria, head, callback }) => {
     const [currentStep, setCurrentStep] = useState(0);
     const [snack, setSnack] = useState({
         message: '',
         status: false,
         type: 'error'
     });
-    const [time, setTime] = useState({
-        initial: undefined,
-        final: undefined
-    })
+    const [initial, setInitial] = useState('');
+    const timer = useTimer();
 
     useEffect(() => {
-        setTime(({
-            final: undefined,
-            initial: Date.now()
-        }));
+        setInitial(new Date());
     }, []);
 
     const mountStepsArray = () => {
@@ -61,14 +57,13 @@ const Vistoria = ({ vistoria, head }) => {
         try {
             if((fileArray.length + 1) !== stepsArray.length) throw Error("Preencha todas as etapas.");
             
-            setTime(prev => ({
-                ...prev,
-                final: Date.now()
-            }));
             head.functionPage = "vistoriaSave";
+            let final = new Date();
             let arrayData = Object.assign({}, head, mountArrayData(fileArray));
             
-            let response = saveData(arrayData).then(res => res.json());
+            //let response = saveData(arrayData).then(res => res.json());
+
+            //console.log(response);
 
             localStorage.clear();
             sessionStorage.clear();
@@ -77,6 +72,7 @@ const Vistoria = ({ vistoria, head }) => {
                 message: 'Vistoria enviada com sucesso!',
                 status: true
             });
+            callback(prev => ({...prev, vistoria: true}));
         } catch (error) {
             setSnack({
                 type: 'error',
@@ -87,7 +83,7 @@ const Vistoria = ({ vistoria, head }) => {
     }
 
     return <>
-        <Step data={stepsArray[currentStep]} total={stepsArray.length} changeStep={setCurrentStep} submit={sendFiles} key={currentStep} />
+        <Step data={stepsArray[currentStep]} total={stepsArray.length} changeStep={setCurrentStep} submit={sendFiles} key={currentStep} timer={timer} />
         <CustomSnackbar content={snack} setStatus={setSnack} />
     </>
 }

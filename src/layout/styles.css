@@ -67,6 +67,7 @@ main {
     display: flex;
     flex-direction: row;
     justify-content: center;
+    align-items: center;
 }
 
 .etapas h3{
@@ -76,6 +77,12 @@ main {
 
 .etapas span {
     color: #000;
+}
+
+.etapas .timer {
+    margin-left: 1rem;
+    color: red;
+    font-size: large;
 }
 
 .disable{
@@ -318,6 +325,14 @@ button:active{
 
 .regras svg {
     padding-right: .5rem;
+}
+
+.regras button {
+    background-color: #484848;
+    text-transform: uppercase;
+}
+.regras button:active {
+    background-color: #333333;
 }
 
 .location img {

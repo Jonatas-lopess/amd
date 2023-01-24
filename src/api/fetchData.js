@@ -19,7 +19,7 @@ const wrapPromise = (promise) => {
     let suspend = promise.then(
         (res) => {
             status = "success";
-            result = res[1];
+            result = res[0];
         },
         (err) => {
             status = "error";

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from 'react';
 import UploadFiles from '../UploadFiles';
 import { setStorage, getStorage } from '../CustomStorage';
 
-const Step = ({ data, total, changeStep, submit }) => {
+const Step = ({ data, total, changeStep, submit, timer }) => {
     const id = Number(data.id);
     const [fileURL, setFileURL] = useState(getStorage(`file_${id}`));
     const videoRef = useRef();
@@ -19,6 +19,7 @@ const Step = ({ data, total, changeStep, submit }) => {
             <span className={id === 0 || (!fileURL && data.tipo !== "button") ? 'disable' : ''} onClick={id !== 0 && (fileURL || data.tipo === "button") ? () => changeStep(id - 1) : null}>&lt;</span>
             <h3>Etapa {(id + 1)}/{total}</h3>
             <span className={id === (total - 1) || !fileURL ? 'disable' : ''} onClick={id !== (total - 1) && fileURL ? () => changeStep(id + 1) : null}>&gt;</span>
+            <span className='timer'>{`${timer.minutes}`.padStart(2, "0")}:{`${timer.seconds}`.padStart(2, "0")}</span>
         </div>
         {
             fileURL ?
