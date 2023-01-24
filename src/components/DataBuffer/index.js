@@ -6,7 +6,6 @@ import Vistoria from '../Vistoria';
 
 const DataBuffer = ({ request, header }) => {
     const vistoria = request.data.read();
-
     const [local, setLocal] = useState(undefined);
     const [fase, setFase] = useState({
         vistoria: false

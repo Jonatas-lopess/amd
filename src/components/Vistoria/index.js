@@ -12,11 +12,17 @@ const Vistoria = ({ vistoria, head, callback }) => {
         status: false,
         type: 'error'
     });
-    const [initial, setInitial] = useState('');
     const timer = useTimer();
+    const [tempo, setTempo] = useState({
+        initial: undefined,
+        final: undefined
+    });
 
     useEffect(() => {
-        setInitial(new Date());
+        setTempo({
+            initial: new Date(),
+            final: undefined
+        });
     }, []);
 
     const mountStepsArray = () => {
@@ -58,7 +64,7 @@ const Vistoria = ({ vistoria, head, callback }) => {
             if((fileArray.length + 1) !== stepsArray.length) throw Error("Preencha todas as etapas.");
             
             head.functionPage = "vistoriaSave";
-            let final = new Date();
+            setTempo(prev => ({...prev, final: new Date()}))
             let arrayData = Object.assign({}, head, mountArrayData(fileArray));
             
             //let response = saveData(arrayData).then(res => res.json());
