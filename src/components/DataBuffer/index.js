@@ -14,7 +14,7 @@ const DataBuffer = ({ request, header }) => {
     const list = {
         presentation: <Presentation changeView={setAtual} local={local} setLocal={setLocal}/>,
         menu: <Menu local={local} changeView={setAtual} option={fase} />,
-        vistoria: <Vistoria vistoria={vistoria} head={header} callback={setFase} />
+        vistoria: <Vistoria vistoria={vistoria} head={header} callback={setFase} coord={local} />
     }
 
     useEffect(() => {

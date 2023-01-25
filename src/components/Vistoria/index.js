@@ -1,11 +1,11 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Step from '../Step';
 import saveData from '../../api/saveData';
 import { getStorage } from '../CustomStorage';
 import CustomSnackbar from '../CustomSnackbar';
 import useTimer from '../Timer';
 
-const Vistoria = ({ vistoria, head, callback }) => {
+const Vistoria = ({ vistoria, head, callback, coord }) => {
     const [currentStep, setCurrentStep] = useState(0);
     const [snack, setSnack] = useState({
         message: '',
@@ -13,16 +13,10 @@ const Vistoria = ({ vistoria, head, callback }) => {
         type: 'error'
     });
     const timer = useTimer();
-    const [tempo, setTempo] = useState({
-        initial: undefined,
-        final: undefined
-    });
+    let initial = useRef();
 
     useEffect(() => {
-        setTempo({
-            initial: new Date(),
-            final: undefined
-        });
+        initial.current = new Date();
     }, []);
 
     const mountStepsArray = () => {
@@ -37,10 +31,16 @@ const Vistoria = ({ vistoria, head, callback }) => {
     }
     const stepsArray = mountStepsArray();
 
-    const mountArrayData = (fileArray) => {
+    const mountArrayData = (fileArray, final) => {
         vistoria.vistoriaEtapas.map((element) => {
             element.imagens.map((e) => {
                 e.cache = fileArray[Number(e.id)]
+                if(e.tipo === "button") {
+                    e.latitude = coord.lat
+                    e.longitude = coord.lng
+                    e.data_ini = initial.current
+                    e.data_fim = final
+                }
 
                 return e;
             })
@@ -63,21 +63,17 @@ const Vistoria = ({ vistoria, head, callback }) => {
         try {
             if((fileArray.length + 1) !== stepsArray.length) throw Error("Preencha todas as etapas.");
             
+            let final = new Date();
             head.functionPage = "vistoriaSave";
-            setTempo(prev => ({...prev, final: new Date()}))
-            let arrayData = Object.assign({}, head, mountArrayData(fileArray));
+            let arrayData = Object.assign({}, head, mountArrayData(fileArray, final));
             
-            //let response = saveData(arrayData).then(res => res.json());
+            let response = saveData(arrayData).then(res => res.json());
 
-            //console.log(response);
+            console.log(response);
 
             localStorage.clear();
             sessionStorage.clear();
-            setSnack({
-                type: 'success',
-                message: 'Vistoria enviada com sucesso!',
-                status: true
-            });
+
             callback(prev => ({...prev, vistoria: true}));
         } catch (error) {
             setSnack({
