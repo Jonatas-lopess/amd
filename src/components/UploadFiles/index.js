@@ -1,14 +1,21 @@
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
-import CustomSnackbar from "../CustomSnackbar";
+import CustomDialog from '../CustomDialog';
 
 const UploadFiles = ({ file ,fileURLCallback, fileType, changeStep }) => {
-    const [snack, setSnack] = useState({
-        message: '',
-        status: false,
-        type: 'error'
-    });
+    const [dialogStatus, setDialogStatus] = useState(false);
+
+    const handleDialog = () => {
+        setDialogStatus(false);
+        let element = document.getElementById('file-upload');
+        if(element.click)
+            element.click();
+        else {
+            let eventObj = new MouseEvent('click', { bubbles: true, cancelable: false });
+            element.dispatchEvent(eventObj);
+        }
+    }
 
     const getBase64 = file => {
         return new Promise((resolve, reject) => {
@@ -60,14 +67,14 @@ const UploadFiles = ({ file ,fileURLCallback, fileType, changeStep }) => {
                     Repetir
                 </label>
                 <button onClick={() => changeStep(prev => prev + 1)}>Próxima</button>
-                <CustomSnackbar content={snack} setStatus={setSnack}/>
+                <CustomDialog open={dialogStatus} handleClose={setDialogStatus} />
             </div>
          :  <div className="camera">
                 <label htmlFor="file-upload">
                     <input id="file-upload" type="file" accept={fileType === "imagem" ? "image/*" : "video/*"} onChange={onFileChange} capture="environment" hidden={true} />
                     <FontAwesomeIcon icon={faCamera} size='4x' className="camera-icon" />
                 </label>
-                <CustomSnackbar content={snack} setStatus={setSnack}/>
+                <CustomDialog open={dialogStatus} handleClose={handleDialog} />
             </div>
         }
     </>
