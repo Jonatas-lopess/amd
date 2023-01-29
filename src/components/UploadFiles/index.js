@@ -53,7 +53,7 @@ const UploadFiles = ({ file ,fileURLCallback, fileType, changeStep }) => {
         let file = e.target.files[0];
 
         getBase64(file).then(res => fileURLCallback(res)).catch(err => {
-            setSnack({type: 'error', status: true, message: err});
+            setDialogStatus(true);
         });
     }
 
@@ -67,16 +67,15 @@ const UploadFiles = ({ file ,fileURLCallback, fileType, changeStep }) => {
                     Repetir
                 </label>
                 <button onClick={() => changeStep(prev => prev + 1)}>Próxima</button>
-                <CustomDialog open={dialogStatus} handleClose={setDialogStatus} />
             </div>
          :  <div className="camera">
                 <label htmlFor="file-upload">
                     <input id="file-upload" type="file" accept={fileType === "imagem" ? "image/*" : "video/*"} onChange={onFileChange} capture="environment" hidden={true} />
                     <FontAwesomeIcon icon={faCamera} size='4x' className="camera-icon" />
                 </label>
-                <CustomDialog open={dialogStatus} handleClose={handleDialog} />
             </div>
         }
+        <CustomDialog open={dialogStatus} handleClose={handleDialog} />
     </>
 }
 

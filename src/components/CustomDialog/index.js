@@ -3,12 +3,11 @@ import { Button, Dialog, DialogActions, DialogContent, DialogContentText } from 
 const CustomDialog = ({ open, handleClose }) => (
     <Dialog
         open={open}
-        onClose={handleClose}
         aria-describedby="alert-dialog-description"
       >
         <DialogContent>
           <DialogContentText id="alert-dialog-description">
-            Atenção! Sua foto foi capturada com o celular em modo Retrato (em pé). Vamos tentar de novo? Precisamos da foto em modo PAISAGEM (com celular deitado) ok?
+            Atenção!<br/>Sua foto foi capturada com o celular em modo Retrato (em pé). Vamos tentar de novo? Precisamos da foto em modo PAISAGEM (com celular deitado) ok?
           </DialogContentText>
         </DialogContent>
         <DialogActions>

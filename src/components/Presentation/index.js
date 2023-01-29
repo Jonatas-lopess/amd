@@ -18,7 +18,7 @@ const Presentation = ({ changeView, local, setLocal }) => {
         } else {
             console.log("Sem suporte para geolocalização...");
         }
-    }, []);
+    }, [setLocal]);
 
     return <>
         {
