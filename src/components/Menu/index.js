@@ -18,7 +18,7 @@ const Menu = ({ changeView, local, option }) => {
                 <span>Acessórios</span>
                 <FontAwesomeIcon icon={faPlay} size="xl" />
             </div>
-            <div className={option.vistoria === false ? "disable" : ""}>
+            <div onClick={() => changeView("observation")} className={option.vistoria === false ? "disable" : ""}>
                 <span>Observações</span>
                 <FontAwesomeIcon icon={faPlay} size="xl" />
             </div>

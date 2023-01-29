@@ -378,7 +378,7 @@ button:active{
     font-size: large;
 }
 
-.file-buttons {
+.file-buttons, .obs-buttons {
     display: flex;
     flex-direction: row;
     justify-content: space-between;
@@ -401,6 +401,27 @@ button:active{
     font-weight: bold;
     border-radius: 8px;
     display: block;
+}
+
+.observation h1 {
+    text-transform: uppercase;
+    text-decoration: underline;
+}
+
+.observation textarea {
+    width: 90%;
+    border-radius: 10px;
+}
+
+.obs-buttons button:first-child {
+    background-color: #fafbfe;
+    color: #484848;
+    border: 2px solid #484848;
+}
+
+.obs-buttons button:last-child {
+    background-color: #333333;
+    text-transform: uppercase;
 }
 
 @media (min-width: 576px) {
