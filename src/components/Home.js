@@ -18,10 +18,7 @@ const Home = () => {
     
     const requestBody = {
         "contrato": contrato,
-        "userSession": {
-            "id": id
-        },
-        "functionPage": "vistoriaList"
+        "idVistoria": id,
     }
 
     return mobileCheck() ? (

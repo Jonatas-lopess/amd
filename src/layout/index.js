@@ -1,14 +1,15 @@
-import logo from '../assets/img/logo.png';
 import './styles.css';
 
-const Layout = ({ info, children }) => {
+const Layout = ({ info, logo, children }) => {
+    const logoImg = `https://teste.sivisweb.com.br/${logo}`;
+
     return (
         <>
         <header>
             <div className="line-header bg-destaque"></div>
             <div className="container-header">
                 <div className="img-logo">
-                    <img alt="Logo" src={logo} className="img-fluid"/>
+                    <img alt="Logo" src={logoImg} className="img-fluid"/>
                 </div>
                 <div className='infos'>
                     <h3>CARRO</h3>

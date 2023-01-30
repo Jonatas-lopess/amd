@@ -95,7 +95,7 @@ main {
 }
 
 .bg-destaque {
-    background: #BF1717 !important;
+    background: var(--primary) !important;
 }
 
 .icon{
@@ -158,7 +158,7 @@ a {
 }
 
 .texto-destaque {
-    color: #BF1717 !important;
+    color: var(--primary) !important;
     font-weight: bolder;
 }
 
@@ -249,7 +249,7 @@ video{
 }
 
 h4{
-    background-color: #BF1717;
+    background-color: var(--primary);
     color: white;
     width: fit-content;
     padding: .5rem 2rem;
@@ -279,7 +279,7 @@ h2{
 }
 
 button{
-    background-color: red;
+    background-color: var(--primary);
     border: none;
     color: white;
     padding: 15px 32px;
@@ -289,10 +289,6 @@ button{
     border-radius: 8px;
     display: block;
     margin: 1.5rem auto;
-}
-
-button:active{
-    background-color: rgb(78, 0, 0);
 }
 
 .camera{
@@ -325,6 +321,7 @@ button:active{
 
 .regras svg {
     padding-right: .5rem;
+    color: var(--primary);
 }
 
 .regras button {
@@ -364,7 +361,7 @@ button:active{
     margin: 1rem 0;
     align-items: center;
     justify-content: space-between;
-    border-left: 5px solid red;
+    border-left: 5px solid var(--primary);
     color: rgb(49, 49, 49);
     box-shadow: 0 3px 10px rgb(0 0 0 / 0.2);
 }

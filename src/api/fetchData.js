@@ -1,15 +1,27 @@
 const fetchData = (body) => {
-    const options = {
-        method: "POST",
-        body: JSON.stringify(body)
-    }
-    const dataPromise = fetch(
+    body.functionPage = "vistoriaList";
+
+    const vistoriaPromise = fetch(
         "https://teste.sivisweb.com.br/Modulos/Seguro/Api/AmdApi.php",
-        options
+        {
+            method: "POST",
+            body: JSON.stringify(body)
+        }
         ).then((response) => response.json());
 
+    body.functionPage = "config";
+
+    const configPromise = fetch(
+        "https://teste.sivisweb.com.br/Modulos/Seguro/Api/AmdApi.php",
+        {
+            method: "POST",
+            body: JSON.stringify(body)
+        }
+        ).then((response) => response.json());
+    
     return {
-      data: wrapPromise(dataPromise),
+      vistoria: wrapPromise(vistoriaPromise),
+      config: wrapPromise(configPromise)
     };
 };
   
@@ -19,7 +31,7 @@ const wrapPromise = (promise) => {
     let suspend = promise.then(
         (res) => {
             status = "success";
-            result = res[0];
+            result = res;
         },
         (err) => {
             status = "error";

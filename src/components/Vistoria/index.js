@@ -38,8 +38,8 @@ const Vistoria = ({ vistoria, head, callback, coord }) => {
                 if(e.tipo === "button") {
                     e.latitude = coord.lat
                     e.longitude = coord.lng
-                    e.data_ini = initial.current
-                    e.data_fim = final
+                    e.dt_ini = initial.current
+                    e.cache = final
                 }
 
                 return e;
