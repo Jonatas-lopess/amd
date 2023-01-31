@@ -21,3 +21,19 @@ export const setStorage = ( key, data ) => {
         };
     }
 }
+
+export const forstorage = func => {
+    for (let i = 0; i < sessionStorage.length; i++) {
+        let obj = {};
+        obj[sessionStorage.key(i)] = sessionStorage.getItem(sessionStorage.key(i));
+
+        func(obj);
+    }
+
+    for (let i = 0; i < localStorage.length; i++) {
+        let obj = {};
+        obj[localStorage.key(i)] = localStorage.getItem(localStorage.key(i));
+        
+        func(obj);
+    }
+}

@@ -4,6 +4,7 @@ import Menu from "../Menu";
 import Presentation from "../Presentation";
 import Vistoria from '../Vistoria';
 import Observation from '../Observation';
+import Avarias from "../Avarias";
 
 const DataBuffer = ({ request, header }) => {
     const vistoria = request.vistoria.read()[0];
@@ -22,6 +23,7 @@ const DataBuffer = ({ request, header }) => {
     const [local, setLocal] = useState(undefined);
     const [fase, setFase] = useState({
         vistoria: vistoria.vistoriaEtapas[vistoria.vistoriaEtapas.length - 1].imagens[0].cache ? true : false,
+        avarias: false,
         observation: false
     });
     const [atual, setAtual] = useState("presentation");
@@ -30,6 +32,7 @@ const DataBuffer = ({ request, header }) => {
         presentation: <Presentation changeView={setAtual} local={local} setLocal={setLocal}/>,
         menu: <Menu local={local} changeView={setAtual} option={fase} />,
         vistoria: <Vistoria vistoria={vistoria} head={header} callback={setFase} coord={local} />,
+        avarias: <Avarias />,
         observation: <Observation changeView={setAtual} callback={setFase} />
     }
 

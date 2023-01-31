@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useState } from "react";
 import CustomDialog from '../CustomDialog';
 
-const UploadFiles = ({ file ,fileURLCallback, fileType, changeStep }) => {
+const UploadFiles = ({ file ,fileURLCallback, fileType, changeStep, finishCallback = false }) => {
     const [dialogStatus, setDialogStatus] = useState(false);
 
     const handleDialog = () => {
@@ -66,6 +66,11 @@ const UploadFiles = ({ file ,fileURLCallback, fileType, changeStep }) => {
                     <input id="file-upload" type="file" accept={fileType === "imagem" ? "image/*" : "video/*"} onChange={onFileChange} capture="environment" hidden={true} />          
                     Repetir
                 </label>
+                {
+                    finishCallback
+                    ?   <button className="submitter" onClick={finishCallback}>Finalizar</button>
+                    :   null
+                }
                 <button onClick={() => changeStep(prev => prev + 1)}>Próxima</button>
             </div>
          :  <div className="camera">

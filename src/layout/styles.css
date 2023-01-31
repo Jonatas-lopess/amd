@@ -291,6 +291,10 @@ button{
     margin: 1.5rem auto;
 }
 
+.ma {
+    margin: 1rem 0;
+}
+
 .camera{
     width: fit-content;
     margin: .5rem auto;
@@ -400,14 +404,30 @@ button{
     display: block;
 }
 
+.file-buttons:has(> .submitter) {
+    margin: .7rem;
+}
+
+label:has(+ .submitter) {
+    padding: 10px 20px;
+}
+
+.submitter + button {
+    padding: 10px 20px;
+    background-color: #fafbfe;
+    color: #484848;
+    border: 2px solid #484848;
+}
+
 .observation h1 {
     text-transform: uppercase;
     text-decoration: underline;
 }
 
-.observation textarea {
-    width: 90%;
+textarea {
+    width: 80%;
     border-radius: 10px;
+    padding: .5rem;
 }
 
 .obs-buttons button:first-child {
