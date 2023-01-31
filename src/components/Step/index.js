@@ -13,6 +13,18 @@ const Step = ({ data, total, changeStep, submit, timer }) => {
         return () => setStorage(`file_${id}`, fileURL);
     }, [fileURL, id])
     
+    const renderObs = () => {
+        let stringArr = data.observacao.split("*");
+        let arr = [];
+        let i = 0;
+        for (const value in stringArr) {
+                if(stringArr[value]) arr.push(<li key={i}>{stringArr[value]}</li>)
+                i++
+        }
+
+        return arr;
+    }
+
     return (
         <>
         <div className='etapas'>
@@ -51,8 +63,7 @@ const Step = ({ data, total, changeStep, submit, timer }) => {
             <div className='info'>
                 <h4>foto obrigatória</h4>
                 <ul>
-                    <li>Na foto deve aparecer toda lateral do motorista;</li>
-                    <li>Os vidros devem estar fechados.</li>
+                    { renderObs() }
                 </ul>
             </div>
             <UploadFiles file={fileURL} fileURLCallback={setFileURL} fileType={data.tipo} changeStep={changeStep} />
