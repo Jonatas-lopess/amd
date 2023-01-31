@@ -31,7 +31,7 @@ const AvariaStep = ({ index, changeStep, submit }) => {
             :   <img src={img} alt="veiculo" className='veiculo-img' />
         }
         <p>Danos e Avarias</p>
-        <textarea className="ma" rows={5} onChange={handleDesc} value={descURL ? descURL : ''}></textarea>
+        <textarea className="ma" rows={5} onChange={handleDesc} value={descURL ? descURL : ''} disabled={photoURL === null}></textarea>
         <UploadFiles file={photoURL} fileURLCallback={setPhotoURL} fileType={"imagem"} changeStep={changeStep} finishCallback={submit} />
     </>
 }
