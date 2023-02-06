@@ -1,9 +1,11 @@
 import { useEffect, useRef, useState } from 'react';
 import UploadFiles from '../UploadFiles';
 import { db } from '../../db';
+import Loading from '../Loading';
 
 const Step = ({ data, total, changeStep, submit, timer }) => {
     const id = Number(data.id);
+    const [loaded, setLoaded] = useState(false);
     const [fileURL, setFileURL] = useState(null);
     const videoRef = useRef();
     const veiculoImg = `https://teste.sivisweb.com.br${data.imagem}`;
@@ -12,6 +14,7 @@ const Step = ({ data, total, changeStep, submit, timer }) => {
         (async () => {
             let file = await db.files.get(id);
             if(file) setFileURL(file.value);
+            setLoaded(true)
         })()
     }, [])
 
@@ -32,7 +35,7 @@ const Step = ({ data, total, changeStep, submit, timer }) => {
         return arr;
     }
 
-    return (
+    return loaded ?
         <>
         <div className='etapas'>
             <span className={id === 0 || (!fileURL && data.tipo !== "button") ? 'disable' : ''} onClick={id !== 0 && (fileURL || data.tipo === "button") ? () => changeStep(id - 1) : null}>&lt;</span>
@@ -77,7 +80,7 @@ const Step = ({ data, total, changeStep, submit, timer }) => {
             </>
         }
         </>
-    )
+    : <Loading />
 }
 
 export default Step;

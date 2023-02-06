@@ -4,14 +4,21 @@ import saveData from '../../api/saveData';
 import CustomSnackbar from '../CustomSnackbar';
 import useTimer from '../Timer';
 import { db } from '../../db';
+import { useParams } from 'react-router-dom';
 
-const Vistoria = ({ vistoria, head, callback, coord }) => {
+const Vistoria = ({ vistoria, callback, coord }) => {
     const [currentStep, setCurrentStep] = useState(0);
     const [snack, setSnack] = useState({
         message: '',
         status: false,
         type: 'error'
     });
+    const { id, contrato } = useParams();
+    const requestBody = {
+        "contrato": contrato,
+        "idVistoria": id,
+        "functionPage": "vistoriaSave"
+    }
     const timer = useTimer();
     let initial = useRef();
 
@@ -58,8 +65,7 @@ const Vistoria = ({ vistoria, head, callback, coord }) => {
             if((fileArray.length + 1) !== stepsArray.length) throw Error("Preencha todas as etapas.");
             
             let final = new Date();
-            head.functionPage = "vistoriaSave";
-            let arrayData = Object.assign({}, head, mountArrayData(fileArray, final));
+            let arrayData = Object.assign({}, requestBody, mountArrayData(fileArray, final));
             
             let response = saveData(arrayData).then(res => res.json());
 

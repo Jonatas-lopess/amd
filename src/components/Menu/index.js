@@ -1,29 +1,52 @@
 import { faCheck, faPlay } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import GeoMap from "../GeoMap";
+import Vistoria from '../Vistoria';
+import Observation from '../Observation';
+import Avarias from "../Avarias";
+import { useEffect, useState } from "react";
 
-const Menu = ({ changeView, local, option }) => {
-    return <>
-        <GeoMap mapProps={local} />
-        <div className="menu">
-            <div onClick={() => option.vistoria === false ? changeView("vistoria") : null}>
-                <span>Iniciar vistoria</span>
-                { option.vistoria === true ? <FontAwesomeIcon icon={faCheck} size='xl' color="green"/> : <FontAwesomeIcon icon={faPlay} size="xl" /> }
+const Menu = ({ local, vistoria }) => {
+    const [fase, setFase] = useState({
+        vistoria: vistoria.vistoriaEtapas[vistoria.vistoriaEtapas.length - 1].imagens[0].cache ? true : false,
+        avarias: false,
+        observation: false
+    });
+    const [atual, setAtual] = useState(undefined);
+    
+    const list = {
+        vistoria: <Vistoria vistoria={vistoria} callback={setFase} coord={local} />,
+        avarias: <Avarias />,
+        observation: <Observation changeView={setAtual} callback={setFase} />
+    }
+
+    useEffect(() => {
+        setAtual(undefined);
+    }, [fase])
+
+    return atual
+         ? list[atual]
+         : <>
+            <GeoMap mapProps={local} />
+            <div className="menu">
+                <div onClick={() => fase.vistoria === false ? setAtual("vistoria") : null}>
+                    <span>Iniciar vistoria</span>
+                    { fase.vistoria === true ? <FontAwesomeIcon icon={faCheck} size='xl' color="green"/> : <FontAwesomeIcon icon={faPlay} size="xl" /> }
+                </div>
+                <div className={fase.vistoria === false ? "disable" : ""}>
+                    <span>Danos e Avarias</span>
+                    <FontAwesomeIcon icon={faPlay} size="xl" />
+                </div>
+                <div className={fase.vistoria === false ? "disable" : ""}>
+                    <span>Acessórios</span>
+                    <FontAwesomeIcon icon={faPlay} size="xl" />
+                </div>
+                <div className={fase.vistoria === false ? "disable" : ""}>
+                    <span>Observações</span>
+                    <FontAwesomeIcon icon={faPlay} size="xl" />
+                </div>
             </div>
-            <div className={option.vistoria === false ? "disable" : ""}>
-                <span>Danos e Avarias</span>
-                <FontAwesomeIcon icon={faPlay} size="xl" />
-            </div>
-            <div className={option.vistoria === false ? "disable" : ""}>
-                <span>Acessórios</span>
-                <FontAwesomeIcon icon={faPlay} size="xl" />
-            </div>
-            <div className={option.vistoria === false ? "disable" : ""}>
-                <span>Observações</span>
-                <FontAwesomeIcon icon={faPlay} size="xl" />
-            </div>
-        </div>
-    </>
+         </>
 }
 
 export default Menu;

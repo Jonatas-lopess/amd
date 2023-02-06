@@ -24,7 +24,7 @@ const Home = () => {
     return mobileCheck() ? (
         <Suspense fallback={<Loading />}>
             <ErrorBoundary message="Ocorreu um erro!">
-                <DataBuffer request={fetchData(requestBody)} header={requestBody} />
+                <DataBuffer request={fetchData(requestBody)} />
             </ErrorBoundary>
         </Suspense>
     ) : (

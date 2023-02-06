@@ -1,11 +1,15 @@
 import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import GeoMap from "../GeoMap";
 import map from '../../assets/img/maps.jpg';
 
-const Presentation = ({ changeView, local, setLocal }) => {
-    useEffect(() => {
+const Presentation = ({ callback }) => {
+    const [local, setLocal] = useState(undefined);
+
+    useEffect(() => getLocation(), []);
+
+    const getLocation = () => {
         if (navigator.geolocation) {
             navigator.geolocation.getCurrentPosition(location => {
                 setLocal({
@@ -18,14 +22,14 @@ const Presentation = ({ changeView, local, setLocal }) => {
         } else {
             console.log("Sem suporte para geolocalização...");
         }
-    }, [setLocal]);
+    }
 
     return <>
         {
             local
             ? <GeoMap mapProps={local} />
             : <div className="location">
-                <img src={map} alt="localização" onClick={() => window.location.reload(true)}/>
+                <img src={map} alt="localização" onClick={() => getLocation()}/>
                 <small>Clique no mapa para adicionar sua localização, em seguida clique em <b>PRÓXIMA</b></small>
                 <ul>
                     <li>Cetifique-se que o GPS do seu SmartPhone está ligado.</li>
@@ -47,7 +51,7 @@ const Presentation = ({ changeView, local, setLocal }) => {
                 <FontAwesomeIcon icon={faCircleCheck} size='xl' />
                 Esteja em um local iluminado, não aceitamos vistorias feitas no interior de garagem ou em locais apertados e nunca utilize o FLASH.
             </div>
-            { local && <button onClick={() => changeView("menu")}>Próxima</button> }
+            { local && <button onClick={() => callback(local)}>Próxima</button> }
         </div>
     </>
 }
