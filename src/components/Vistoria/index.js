@@ -1,9 +1,9 @@
 import { useEffect, useRef, useState } from 'react';
 import Step from '../Step';
 import saveData from '../../api/saveData';
-import { getStorage } from '../CustomStorage';
 import CustomSnackbar from '../CustomSnackbar';
 import useTimer from '../Timer';
+import { db } from '../../db';
 
 const Vistoria = ({ vistoria, head, callback, coord }) => {
     const [currentStep, setCurrentStep] = useState(0);
@@ -34,7 +34,7 @@ const Vistoria = ({ vistoria, head, callback, coord }) => {
     const mountArrayData = (fileArray, final) => {
         vistoria.vistoriaEtapas.map((element) => {
             element.imagens.map((e) => {
-                e.cache = fileArray[Number(e.id)]
+                if(fileArray[Number(e.id)]) e.cache = fileArray[Number(e.id)].value
                 if(e.tipo === "button") {
                     e.latitude = coord.lat
                     e.longitude = coord.lng
@@ -51,16 +51,10 @@ const Vistoria = ({ vistoria, head, callback, coord }) => {
         return vistoria;
     };
 
-    const sendFiles = () => {
-        let fileArray = [];
-        stepsArray.forEach((_, i) => {
-            let file = getStorage(`file_${i}`);
-            if (file === null) return;
-
-            fileArray.push(file);
-        });
-
+    const sendFiles = async () => {
         try {
+            let fileArray = await db.files.toArray();
+            
             if((fileArray.length + 1) !== stepsArray.length) throw Error("Preencha todas as etapas.");
             
             let final = new Date();
@@ -71,9 +65,7 @@ const Vistoria = ({ vistoria, head, callback, coord }) => {
 
             console.log(response);
 
-            localStorage.clear();
-            sessionStorage.clear();
-
+            await db.files.clear();
             callback(prev => ({...prev, vistoria: true}));
         } catch (error) {
             setSnack({

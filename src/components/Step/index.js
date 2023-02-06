@@ -1,16 +1,23 @@
 import { useEffect, useRef, useState } from 'react';
 import UploadFiles from '../UploadFiles';
-import { setStorage, getStorage } from '../CustomStorage';
+import { db } from '../../db';
 
 const Step = ({ data, total, changeStep, submit, timer }) => {
     const id = Number(data.id);
-    const [fileURL, setFileURL] = useState(getStorage(`file_${id}`));
+    const [fileURL, setFileURL] = useState(null);
     const videoRef = useRef();
     const veiculoImg = `https://teste.sivisweb.com.br${data.imagem}`;
 
     useEffect(() => {
+        (async () => {
+            let file = await db.files.get(id);
+            if(file) setFileURL(file.value);
+        })()
+    }, [])
+
+    useEffect(() => {
         videoRef.current?.load();
-        return () => setStorage(`file_${id}`, fileURL);
+        return async () => { if(fileURL !== null) await db.files.put({ id, value: fileURL }) }
     }, [fileURL, id])
     
     const renderObs = () => {

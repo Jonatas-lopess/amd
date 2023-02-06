@@ -12,8 +12,8 @@ const Layout = ({ info, logo, children }) => {
                     <img alt="Logo" src={logoImg} className="img-fluid"/>
                 </div>
                 <div className='infos'>
-                    <h3>CARRO</h3>
-                    <p>Vistoria: <span className='cap'>{info.tipo}-CARRO</span></p>
+                    <h3>AUTOMÓVEL</h3>
+                    <p>Vistoria: <span className='cap'>{info.tipo}</span></p>
                     <p>Associado: <span>{info.razao_social}</span></p>
                     <p>Placa: <span>{info.placa}</span></p>
                 </div>
