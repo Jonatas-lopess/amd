@@ -10,7 +10,7 @@ const Menu = ({ changeView, local, option }) => {
                 <span>Iniciar vistoria</span>
                 { option.vistoria === true ? <FontAwesomeIcon icon={faCheck} size='xl' color="green"/> : <FontAwesomeIcon icon={faPlay} size="xl" /> }
             </div>
-            <div onClick={() => changeView("avarias")} className={option.vistoria === false ? "disable" : ""}>
+            <div className={option.vistoria === false ? "disable" : ""}>
                 <span>Danos e Avarias</span>
                 <FontAwesomeIcon icon={faPlay} size="xl" />
             </div>
@@ -18,7 +18,7 @@ const Menu = ({ changeView, local, option }) => {
                 <span>Acessórios</span>
                 <FontAwesomeIcon icon={faPlay} size="xl" />
             </div>
-            <div onClick={() => changeView("observation")} className={option.vistoria === false ? "disable" : ""}>
+            <div className={option.vistoria === false ? "disable" : ""}>
                 <span>Observações</span>
                 <FontAwesomeIcon icon={faPlay} size="xl" />
             </div>
