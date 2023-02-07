@@ -1,7 +1,6 @@
 import { useState } from "react";
 import AvariaStep from "../AvariaStep";
 import CustomSnackbar from "../CustomSnackbar";
-import { forstorage } from "../CustomStorage";
 
 const Avarias = () => {
     const [currentStep, setCurrentStep] = useState(1);
@@ -13,13 +12,9 @@ const Avarias = () => {
 
     const sendFiles = () => {
         let fileArray = [];        
-        forstorage(e => fileArray.push(e));
 
         try {
             console.log(fileArray);
-
-            localStorage.clear();
-            sessionStorage.clear();
 
             setSnack({
                 type: 'success',

@@ -2,7 +2,7 @@ import { Suspense } from 'react';
 import Loading from './Loading';
 import { ErrorBoundary, ErrorPage } from './Error';
 import { useParams } from 'react-router-dom';
-import fetchData from '../api/fetchData';
+import { fetchData } from '../api/fetchData';
 import DataBuffer from './DataBuffer';
 
 const mobileCheck = () => {

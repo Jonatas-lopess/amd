@@ -1,30 +1,57 @@
 import { useEffect, useRef, useState } from 'react';
 import UploadFiles from '../UploadFiles';
-import { db } from '../../db';
-import Loading from '../Loading';
+import CustomSnackbar from '../CustomSnackbar';
+import { useParams } from 'react-router-dom';
+import useTimer from '../Timer';
+import saveData from '../../api/saveData';
 
-const Step = ({ data, total, changeStep, submit, timer }) => {
-    const id = Number(data.id);
-    const [loaded, setLoaded] = useState(false);
+const Step = ({ data, step, changeStep }) => {
+    const vistoria = data.vistoria.read()[0];
+    const info = getInfo();
+    const infoId = Number(info.id);
     const [fileURL, setFileURL] = useState(null);
     const videoRef = useRef();
-    const veiculoImg = `https://teste.sivisweb.com.br${data.imagem}`;
-
-    useEffect(() => {
-        (async () => {
-            let file = await db.files.get(id);
-            if(file) setFileURL(file.value);
-            setLoaded(true)
-        })()
-    }, [])
+    const veiculoImg = `https://teste.sivisweb.com.br${info.imagem}`;
+    const [snack, setSnack] = useState({
+        message: '',
+        status: false,
+        type: 'error'
+    });
+    const stepsNumber = countSteps();
+    const { id, contrato } = useParams();
+    const requestBody = {
+        "contrato": contrato,
+        "idVistoria": id,
+        "functionPage": "vistoriaSave"
+    }
+    const timer = useTimer();
 
     useEffect(() => {
         videoRef.current?.load();
-        return async () => { if(fileURL !== null) await db.files.put({ id, value: fileURL }) }
-    }, [fileURL, id])
-    
+    }, [fileURL])
+
+    function getInfo() {
+        for (const key in vistoria.vistoriaEtapas) {
+            const element = vistoria.vistoriaEtapas[key];
+            for (const key in element.imagens) {
+                if(Number(element.imagens[key].id) === step) return element.imagens[key];
+            }
+        }
+    }
+
+    function countSteps() {
+        let arr = 0;
+        for (let index = 0; index < vistoria.vistoriaEtapas.length; index++) {
+            let element = vistoria.vistoriaEtapas[index].imagens;
+            for (let i = 0; i < element.length; i++) {
+                arr++
+            }          
+        }
+        return arr;
+    }
+
     const renderObs = () => {
-        let stringArr = data.observacao.split("*");
+        let stringArr = info.observacao.split("*");
         let arr = [];
         let i = 0;
         for (const value in stringArr) {
@@ -35,17 +62,47 @@ const Step = ({ data, total, changeStep, submit, timer }) => {
         return arr;
     }
 
-    return loaded ?
-        <>
+    const sendFile = async () => {
+        try {
+            if(info.tipo === 'button') {
+                info.cache = new Date().toString();
+                info.latitude = Number(sessionStorage.getItem('location_lat'));
+                info.longitude = Number(sessionStorage.getItem('location_lng'));
+                info.dt_ini = sessionStorage.getItem('initial');
+            } else { info.cache = fileURL }
+            vistoria.vistoriaEtapas = [{
+                "imagens": [info]
+            }];
+            let arrayData = Object.assign({}, requestBody, vistoria);
+            
+            let response = await saveData(arrayData);
+
+            console.log(response.json());
+
+            if(info.tipo === 'button') {
+                window.location.reload();
+            } else {
+                changeStep(prev => prev + 1);
+            }
+        } catch (error) {
+            setSnack({
+                type: 'error',
+                message: error.message,
+                status: true
+            });
+        }
+    }
+
+    return <>
         <div className='etapas'>
-            <span className={id === 0 || (!fileURL && data.tipo !== "button") ? 'disable' : ''} onClick={id !== 0 && (fileURL || data.tipo === "button") ? () => changeStep(id - 1) : null}>&lt;</span>
-            <h3>Etapa {(id + 1)}/{total}</h3>
-            <span className={id === (total - 1) || !fileURL ? 'disable' : ''} onClick={id !== (total - 1) && fileURL ? () => changeStep(id + 1) : null}>&gt;</span>
+            <span className={infoId === 0 || (!fileURL && info.tipo !== "button") ? 'disable' : ''} onClick={infoId !== 0 && (fileURL || info.tipo === "button") ? () => changeStep(infoId - 1) : null}>&lt;</span>
+            <h3>Etapa {(infoId + 1)}/{stepsNumber}</h3>
+            <span className={infoId === (stepsNumber - 1) || !fileURL ? 'disable' : ''} onClick={infoId !== (stepsNumber - 1) && fileURL ? () => changeStep(infoId + 1) : null}>&gt;</span>
             <span className='timer'>{`${timer.minutes}`.padStart(2, "0")}:{`${timer.seconds}`.padStart(2, "0")}</span>
         </div>
         {
             fileURL ?
-                data.tipo === "imagem" ?
+                info.tipo === "imagem" ?
                 <img src={fileURL} alt="veiculo" className='veiculo-img' />
                 :
                 <video ref={videoRef} controls className='veiculo-img'>
@@ -59,14 +116,14 @@ const Step = ({ data, total, changeStep, submit, timer }) => {
                         "Seu brouser não suporta vídeos"
                     </video>
                 :
-                    <img src={veiculoImg} alt="veiculo" className={data.tipo === 'button' ? 'veiculo-img no-border' : 'veiculo-img'} />
+                    <img src={veiculoImg} alt="veiculo" className={info.tipo === 'button' ? 'veiculo-img no-border' : 'veiculo-img'} />
         }
-        <h1>{data.nome}</h1>
+        <h1>{info.nome}</h1>
         {
-            data.tipo === "button" ?
+            info.tipo === "button" ?
             <>
                 <p>Caso o Veículo possua algum amassado, arranhado mais profundo, pintura queimada, vidros, faróis ou retrovisores quebrados, não deixe de informar a seguir no botão <b>DANOS E AVARIAS</b></p>
-                <button onClick={submit}>Finalizar</button>
+                <button onClick={sendFile}>Finalizar</button>
             </>
             :
             <>
@@ -76,11 +133,11 @@ const Step = ({ data, total, changeStep, submit, timer }) => {
                     { renderObs() }
                 </ul>
             </div>
-            <UploadFiles file={fileURL} fileURLCallback={setFileURL} fileType={data.tipo} changeStep={changeStep} />
+            <UploadFiles file={fileURL} fileURLCallback={setFileURL} fileType={info.tipo} submit={sendFile} />
             </>
         }
+        <CustomSnackbar content={snack} setStatus={setSnack} />
         </>
-    : <Loading />
 }
 
 export default Step;

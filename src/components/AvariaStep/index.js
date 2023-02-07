@@ -1,18 +1,15 @@
 import { useEffect, useState } from "react";
-import { getStorage, setStorage } from "../CustomStorage";
 import UploadFiles from "../UploadFiles";
 import img from '../../assets/img/avaria.jpg';
 
 const AvariaStep = ({ index, changeStep, submit }) => {
-    const [photoURL, setPhotoURL] = useState(getStorage(`photo_${index}`));
-    const [descURL, setDescURL] = useState(getStorage(`desc_${index}`));
+    const [photoURL, setPhotoURL] = useState();
+    const [descURL, setDescURL] = useState();
 
     useEffect(() => {
-        setStorage(`photo_${index}`, photoURL);
     }, [photoURL, index])
 
     useEffect(() => {
-        setStorage(`desc_${index}`, descURL)
     }, [descURL, index])
 
     const handleDesc = (e) => {
