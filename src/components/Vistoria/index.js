@@ -15,6 +15,7 @@ const Vistoria = () => {
 
     useEffect(() => {
         if(sessionStorage.getItem('initial') === null) sessionStorage.setItem('initial', new Date())
+        if(sessionStorage.getItem('stp') === null) sessionStorage.setItem('stp', 0)
     }, [])
 
     return <>

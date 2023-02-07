@@ -82,7 +82,10 @@ const Step = ({ data, step, changeStep }) => {
             if(info.tipo === 'button') {
                 window.location.reload();
             } else {
-                changeStep(prev => prev + 1);
+                changeStep(prev => {
+                    sessionStorage.setItem('stp', prev + 1);
+                    return prev + 1
+                });
             }
         } catch (error) {
             setSnack({
@@ -97,7 +100,7 @@ const Step = ({ data, step, changeStep }) => {
         <div className='etapas'>
             <span className={infoId === 0 || (!fileURL && info.tipo !== "button") ? 'disable' : ''} onClick={infoId !== 0 && (fileURL || info.tipo === "button") ? () => changeStep(infoId - 1) : null}>&lt;</span>
             <h3>Etapa {(infoId + 1)}/{stepsNumber}</h3>
-            <span className={infoId === (stepsNumber - 1) || !fileURL ? 'disable' : ''} onClick={infoId !== (stepsNumber - 1) && fileURL ? () => changeStep(infoId + 1) : null}>&gt;</span>
+            <span className={infoId === (stepsNumber - 1) || (!fileURL && Number(sessionStorage.getItem('stp')) <= infoId) ? 'disable' : ''} onClick={infoId !== (stepsNumber - 1) && (fileURL || Number(sessionStorage.getItem('stp')) > infoId) ? () => changeStep(infoId + 1) : null}>&gt;</span>
             <span className='timer'>{`${timer.minutes}`.padStart(2, "0")}:{`${timer.seconds}`.padStart(2, "0")}</span>
         </div>
         {
