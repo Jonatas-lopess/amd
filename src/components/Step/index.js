@@ -77,7 +77,7 @@ const Step = ({ data, step, changeStep }) => {
             
             let response = await saveData(arrayData);
 
-            console.log(response.json());
+            if(typeof response.json() !== 'object') throw Error(`Erro no processamento de ${info.tipo}`);
 
             if(info.tipo === 'button') {
                 window.location.reload();

@@ -21,6 +21,11 @@ const Menu = ({ local, vistoria }) => {
     }
 
     useEffect(() => {
+        sessionStorage.removeItem('initial');
+        sessionStorage.removeItem('timer');
+    }, [])
+
+    useEffect(() => {
         setAtual(undefined);
     }, [fase])
 

@@ -8,7 +8,9 @@ const useTimer = () => {
 
     useEffect(() => {
         sessionStorage.setItem('timer', timespan);
-        setTimeout(() => setTimespan(prev => prev + SECOND), SECOND);
+        let timeout = setTimeout(() => setTimespan(prev => prev + SECOND), SECOND);
+
+        return () => clearTimeout(timeout);
     }, [timespan]);
 
     return {

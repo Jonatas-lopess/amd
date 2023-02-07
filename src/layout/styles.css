@@ -229,6 +229,7 @@ h1{
 .veiculo-img{
     max-height: 185px;
     max-width: 80%;
+    min-width: 65%;
     border: .5rem solid transparent;
     background-color: transparent;
     border-radius: 25px;
