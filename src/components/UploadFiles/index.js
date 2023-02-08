@@ -64,7 +64,7 @@ const UploadFiles = ({ file ,fileURLCallback, fileType, submit, finishCallback =
         });
 
         new Compressor(file, {
-            quality: 0.8,
+            quality: 0.6,
             success: (result) => {
                 setDialogStatus(prev => ({...prev, message: `depois: ${(result.size / 1024).toFixed(1)}`}))
 
