@@ -55,20 +55,18 @@ const UploadFiles = ({ file ,fileURLCallback, fileType, submit, finishCallback =
 
     function onFileChange(e) {
         if (e.target.files[0] === null || e.target.files[0] === undefined) return;
+        let file = e.target.files[0];
+
         setDialogStatus({
             open: true,
-            message: `Processando ${fileType}...`,
+            message: `antes: ${(file.size / 1024).toFixed(1)}`,
             action: false
         });
-
-        let file = e.target.files[0];
-        console.log("antes: " + file.size / 1024)
 
         new Compressor(file, {
             quality: 0.8,
             success: (result) => {
-                setDialogStatus(prev => ({...prev, message: "Confirmando requisitos..."}))
-                console.log("depois: " + result.size / 1024)
+                setDialogStatus(prev => ({...prev, message: `depois: ${(result.size / 1024).toFixed(1)}`}))
 
                 getBase64(result).then(res => {
                     setDialogStatus({
