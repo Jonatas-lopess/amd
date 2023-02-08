@@ -62,6 +62,16 @@ const Step = ({ data, step, changeStep }) => {
         return arr;
     }
 
+    const handleFilePick = () => {
+        let element = document.getElementById('file-upload');
+        if(element.click)
+            element.click();
+        else {
+            let eventObj = new MouseEvent('click', { bubbles: true, cancelable: false });
+            element.dispatchEvent(eventObj);
+        }
+    }
+
     const sendFile = async () => {
         try {
             if(info.tipo === 'button') {
@@ -98,7 +108,7 @@ const Step = ({ data, step, changeStep }) => {
 
     return <>
         <div className='etapas'>
-            <span className={infoId === 0 || (!fileURL && info.tipo !== "button") ? 'disable' : ''} onClick={infoId !== 0 && (fileURL || info.tipo === "button") ? () => changeStep(infoId - 1) : null}>&lt;</span>
+            <span className={infoId === 0 ? 'disable' : ''} onClick={infoId !== 0 ? () => changeStep(infoId - 1) : null}>&lt;</span>
             <h3>Etapa {(infoId + 1)}/{stepsNumber}</h3>
             <span className={infoId === (stepsNumber - 1) || (!fileURL && Number(sessionStorage.getItem('stp')) <= infoId) ? 'disable' : ''} onClick={infoId !== (stepsNumber - 1) && (fileURL || Number(sessionStorage.getItem('stp')) > infoId) ? () => changeStep(infoId + 1) : null}>&gt;</span>
             <span className='timer'>{`${timer.minutes}`.padStart(2, "0")}:{`${timer.seconds}`.padStart(2, "0")}</span>
@@ -106,7 +116,7 @@ const Step = ({ data, step, changeStep }) => {
         {
             fileURL ?
                 info.tipo === "imagem" ?
-                <img src={fileURL} alt="veiculo" className='veiculo-img' />
+                <img src={fileURL} alt="veiculo" className='veiculo-img' onClick={handleFilePick} />
                 :
                 <video ref={videoRef} controls className='veiculo-img'>
                     <source src={fileURL} type="video/mp4" />
@@ -119,7 +129,7 @@ const Step = ({ data, step, changeStep }) => {
                         "Seu brouser não suporta vídeos"
                     </video>
                 :
-                    <img src={veiculoImg} alt="veiculo" className={info.tipo === 'button' ? 'veiculo-img no-border' : 'veiculo-img'} />
+                    <img src={veiculoImg} alt="veiculo" className={info.tipo === 'button' ? 'veiculo-img no-border' : 'veiculo-img'} onClick={handleFilePick} />
         }
         <h1>{info.nome}</h1>
         {
