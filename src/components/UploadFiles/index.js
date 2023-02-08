@@ -59,14 +59,14 @@ const UploadFiles = ({ file ,fileURLCallback, fileType, submit, finishCallback =
 
         setDialogStatus({
             open: true,
-            message: `antes: ${(file.size / 1024).toFixed(1)}`,
+            message: `Processando ${fileType}...`,
             action: false
         });
 
         new Compressor(file, {
             quality: 0.6,
             success: (result) => {
-                setDialogStatus(prev => ({...prev, message: `depois: ${(result.size / 1024).toFixed(1)}`}))
+                setDialogStatus(prev => ({...prev, message: "Confirmando requisitos..."}))
 
                 getBase64(result).then(res => {
                     setDialogStatus({
@@ -74,6 +74,7 @@ const UploadFiles = ({ file ,fileURLCallback, fileType, submit, finishCallback =
                         message: PHOTO_NOT_VALID,
                         open: false
                     });
+                    
                     fileURLCallback(res)
                 }).catch(err => {
                     console.log(err)
