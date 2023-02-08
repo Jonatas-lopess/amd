@@ -1,18 +1,24 @@
 import { Button, Dialog, DialogActions, DialogContent, DialogContentText } from "@mui/material";
+import Loading from '../Loading';
 
-const CustomDialog = ({ open, handleClose }) => (
+const CustomDialog = ({ open, handleClose, message, action }) => (
     <Dialog
         open={open}
         aria-describedby="alert-dialog-description"
       >
         <DialogContent>
+          { !action ? <Loading /> : <></> }
           <DialogContentText id="alert-dialog-description">
-            Atenção!<br/>Sua foto foi capturada com o celular em modo Retrato (em pé). Vamos tentar de novo? Precisamos da foto em modo PAISAGEM (com celular deitado) ok?
+            { message }
           </DialogContentText>
         </DialogContent>
-        <DialogActions>
-          <Button onClick={handleClose}>Repetir</Button>
-        </DialogActions>
+        {
+        action ?
+          <DialogActions>
+            <Button onClick={handleClose}>Repetir</Button>
+          </DialogActions>
+          : <></>
+        }
     </Dialog>
 );
 

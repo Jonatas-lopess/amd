@@ -5,7 +5,12 @@ import { useState } from "react";
 import CustomDialog from '../CustomDialog';
 
 const UploadFiles = ({ file ,fileURLCallback, fileType, submit, finishCallback = false }) => {
-    const [dialogStatus, setDialogStatus] = useState(false);
+    const PHOTO_NOT_VALID = <>Atenção!<br/>Sua foto foi capturada com o celular em modo Retrato (em pé). Vamos tentar de novo? Precisamos da foto em modo PAISAGEM (com celular deitado) ok?</>
+    const [dialogStatus, setDialogStatus] = useState({
+        open: false,
+        message: PHOTO_NOT_VALID,
+        action: true
+    });
 
     const handleDialog = () => {
         setDialogStatus(false);
@@ -50,17 +55,35 @@ const UploadFiles = ({ file ,fileURLCallback, fileType, submit, finishCallback =
 
     function onFileChange(e) {
         if (e.target.files[0] === null || e.target.files[0] === undefined) return;
+        setDialogStatus({
+            open: true,
+            message: `Processando ${fileType}...`,
+            action: false
+        });
 
         let file = e.target.files[0];
-        console.log("antes: " + file.size / 1024);
+        console.log("antes: " + file.size / 1024)
 
         new Compressor(file, {
             quality: 0.8,
             success: (result) => {
-                console.log("depois: " + result.size / 1024);
+                setDialogStatus(prev => ({...prev, message: "Confirmando requisitos..."}))
+                console.log("depois: " + result.size / 1024)
 
-                getBase64(result).then(res => fileURLCallback(res)).catch(err => {
-                    setDialogStatus(true);
+                getBase64(result).then(res => {
+                    setDialogStatus({
+                        action: true,
+                        message: PHOTO_NOT_VALID,
+                        open: false
+                    });
+                    fileURLCallback(res)
+                }).catch(err => {
+                    console.log(err)
+                    setDialogStatus({
+                        action: true,
+                        message: PHOTO_NOT_VALID,
+                        open: true
+                    });
                 });
             },
             error: (err) => console.error(err)
@@ -90,7 +113,7 @@ const UploadFiles = ({ file ,fileURLCallback, fileType, submit, finishCallback =
                 </label>
             </div>
         }
-        <CustomDialog open={dialogStatus} handleClose={handleDialog} />
+        <CustomDialog open={dialogStatus.open} handleClose={handleDialog} action={dialogStatus.action} message={dialogStatus.message} />
     </>
 }
 
