@@ -1,5 +1,6 @@
 import { faCamera } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import Compressor from "compressorjs";
 import { useState } from "react";
 import CustomDialog from '../CustomDialog';
 
@@ -51,9 +52,18 @@ const UploadFiles = ({ file ,fileURLCallback, fileType, submit, finishCallback =
         if (e.target.files[0] === null || e.target.files[0] === undefined) return;
 
         let file = e.target.files[0];
+        console.log("antes: " + file.size / 1024);
 
-        getBase64(file).then(res => fileURLCallback(res)).catch(err => {
-            setDialogStatus(true);
+        new Compressor(file, {
+            quality: 0.8,
+            success: (result) => {
+                console.log("depois: " + result.size / 1024);
+
+                getBase64(result).then(res => fileURLCallback(res)).catch(err => {
+                    setDialogStatus(true);
+                });
+            },
+            error: (err) => console.error(err)
         });
     }
 
