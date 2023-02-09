@@ -15,7 +15,7 @@ const Menu = ({ local, vistoria }) => {
     const [atual, setAtual] = useState(undefined);
     
     const list = {
-        vistoria: <Vistoria />,
+        vistoria: <Vistoria data={vistoria} />,
         avarias: <Avarias />,
         observation: <Observation changeView={setAtual} callback={setFase} />
     }

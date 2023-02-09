@@ -4,9 +4,10 @@ import CustomSnackbar from '../CustomSnackbar';
 import { useParams } from 'react-router-dom';
 import useTimer from '../Timer';
 import saveData from '../../api/saveData';
+import CustomDialog from '../CustomDialog';
 
-const Step = ({ data, step, changeStep }) => {
-    const vistoria = data.vistoria.read()[0];
+const Step = ({ data, changeData }) => {
+    const vistoria = data.vistoria;
     const info = getInfo();
     const infoId = Number(info.id);
     const [fileURL, setFileURL] = useState(null);
@@ -16,6 +17,11 @@ const Step = ({ data, step, changeStep }) => {
         message: '',
         status: false,
         type: 'error'
+    });
+    const [dialogStatus, setDialogStatus] = useState({
+        open: false,
+        message: `Salvando ${info.tipo}...`,
+        action: false
     });
     const stepsNumber = countSteps();
     const { id, contrato } = useParams();
@@ -34,7 +40,7 @@ const Step = ({ data, step, changeStep }) => {
         for (const key in vistoria.vistoriaEtapas) {
             const element = vistoria.vistoriaEtapas[key];
             for (const key in element.imagens) {
-                if(Number(element.imagens[key].id) === step) return element.imagens[key];
+                if(Number(element.imagens[key].id) === data.currentStep) return element.imagens[key];
             }
         }
     }
@@ -73,6 +79,8 @@ const Step = ({ data, step, changeStep }) => {
     }
 
     const sendFile = async () => {
+        setDialogStatus(prev => ({...prev, open: true}))
+
         try {
             if(info.tipo === 'button') {
                 info.cache = new Date().toString();
@@ -85,16 +93,18 @@ const Step = ({ data, step, changeStep }) => {
             }];
             let arrayData = Object.assign({}, requestBody, vistoria);
             
-            let response = await saveData(arrayData);
+            let response = await ((await saveData(arrayData)).json())
 
-            if(typeof response.json() !== 'object') throw Error(`Erro no processamento de ${info.tipo}`);
+            if(typeof response !== 'object') throw Error(`Erro no envio de ${info.tipo}`);
 
             if(info.tipo === 'button') {
                 window.location.reload();
             } else {
-                changeStep(prev => {
-                    sessionStorage.setItem('stp', prev + 1);
-                    return prev + 1
+                setDialogStatus(prev => ({...prev, open: false}))
+
+                changeData(prev => {
+                    sessionStorage.setItem(`${vistoria.id}_stp`, prev.currentStep + 1);
+                    return ({ currentStep: prev.currentStep + 1, vistoria: response })
                 });
             }
         } catch (error) {
@@ -108,9 +118,9 @@ const Step = ({ data, step, changeStep }) => {
 
     return <>
         <div className='etapas'>
-            <span className={infoId === 0 ? 'disable' : ''} onClick={infoId !== 0 ? () => changeStep(infoId - 1) : null}>&lt;</span>
+            <span className={infoId === 0 ? 'disable' : ''} onClick={infoId !== 0 ? () => changeData(prev => ({...prev, currentStep: prev.currentStep - 1})) : null}>&lt;</span>
             <h3>Etapa {(infoId + 1)}/{stepsNumber}</h3>
-            <span className={infoId === (stepsNumber - 1) || (!fileURL && Number(sessionStorage.getItem('stp')) <= infoId) ? 'disable' : ''} onClick={infoId !== (stepsNumber - 1) && (fileURL || Number(sessionStorage.getItem('stp')) > infoId) ? () => changeStep(infoId + 1) : null}>&gt;</span>
+            <span className={infoId === (stepsNumber - 1) || (!fileURL && Number(sessionStorage.getItem(`${vistoria.id}_stp`)) <= infoId) ? 'disable' : ''} onClick={infoId !== (stepsNumber - 1) && (fileURL || Number(sessionStorage.getItem(`${vistoria.id}_stp`)) > infoId) ? () => changeData(prev => ({...prev, currentStep: prev.currentStep + 1})) : null}>&gt;</span>
             <span className='timer'>{`${timer.minutes}`.padStart(2, "0")}:{`${timer.seconds}`.padStart(2, "0")}</span>
         </div>
         {
@@ -150,7 +160,8 @@ const Step = ({ data, step, changeStep }) => {
             </>
         }
         <CustomSnackbar content={snack} setStatus={setSnack} />
-        </>
+        <CustomDialog open={dialogStatus.open} handleClose={() => null} action={dialogStatus.action} message={dialogStatus.message} />
+    </>
 }
 
 export default Step;
