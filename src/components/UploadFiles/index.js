@@ -59,14 +59,14 @@ const UploadFiles = ({ file ,fileURLCallback, fileType, submit, finishCallback =
 
         setDialogStatus({
             open: true,
-            message: (file.size / 1024).toFixed(1),
+            message: `Processando ${fileType}...`,
             action: false
         });
 
         new Compressor(file, {
             quality: 0.3,
             success: (result) => {
-                setDialogStatus(prev => ({...prev, message: (result.size / 1024).toFixed(1)}))
+                setDialogStatus(prev => ({...prev, message: "Confirmando requisitos..."}))
 
                 getBase64(result).then(res => {
                     setDialogStatus({
