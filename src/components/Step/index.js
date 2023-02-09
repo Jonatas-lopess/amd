@@ -5,6 +5,7 @@ import { useParams } from 'react-router-dom';
 import useTimer from '../Timer';
 import saveData from '../../api/saveData';
 import CustomDialog from '../CustomDialog';
+import errorImg from '../../assets/img/no-image.png';
 
 const Step = ({ data, changeData }) => {
     const vistoria = data.vistoria;
@@ -68,6 +69,11 @@ const Step = ({ data, changeData }) => {
         return arr;
     }
 
+    const handleImgLoadError = event => {
+        event.target.src = errorImg;
+        event.onerror = null;
+    }
+
     const handleFilePick = () => {
         let element = document.getElementById('file-upload');
         if(element.click)
@@ -126,7 +132,7 @@ const Step = ({ data, changeData }) => {
         {
             fileURL ?
                 info.tipo === "imagem" ?
-                <img src={fileURL} alt="veiculo" className='veiculo-img' onClick={handleFilePick} />
+                <img src={fileURL} alt="veiculo" className='veiculo-img' onClick={handleFilePick} onError={handleImgLoadError} />
                 :
                 <video ref={videoRef} controls className='veiculo-img'>
                     <source src={fileURL} type="video/mp4" />
@@ -139,7 +145,7 @@ const Step = ({ data, changeData }) => {
                         "Seu brouser não suporta vídeos"
                     </video>
                 :
-                    <img src={veiculoImg} alt="veiculo" className={info.tipo === 'button' ? 'veiculo-img no-border' : 'veiculo-img'} onClick={handleFilePick} />
+                    <img src={veiculoImg} alt="veiculo" className={info.tipo === 'button' ? 'veiculo-img no-border' : 'veiculo-img'} onClick={handleFilePick} onError={handleImgLoadError} />
         }
         <h1>{info.nome}</h1>
         {

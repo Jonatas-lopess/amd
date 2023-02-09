@@ -1,10 +1,11 @@
-import { faCheck, faPlay } from "@fortawesome/free-solid-svg-icons";
+import { faPlay } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import GeoMap from "../GeoMap";
 import Vistoria from '../Vistoria';
 import Observation from '../Observation';
 import Avarias from "../Avarias";
 import { useEffect, useState } from "react";
+import img from '../../assets/img/ICONE.png';
 
 const Menu = ({ local, vistoria }) => {
     const [fase, setFase] = useState({
@@ -36,7 +37,7 @@ const Menu = ({ local, vistoria }) => {
             <div className="menu">
                 <div onClick={() => fase.vistoria === false ? setAtual("vistoria") : null}>
                     <span>Iniciar vistoria</span>
-                    { fase.vistoria === true ? <FontAwesomeIcon icon={faCheck} size='xl' color="green"/> : <FontAwesomeIcon icon={faPlay} size="xl" /> }
+                    { fase.vistoria === true ? <img src={img} alt="check" className="icone" /> : <FontAwesomeIcon icon={faPlay} size="xl" /> }
                 </div>
                 <div className={fase.vistoria === false ? "disable" : ""}>
                     <span>Danos e Avarias</span>

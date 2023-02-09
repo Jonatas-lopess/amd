@@ -1,8 +1,7 @@
-import { faCircleCheck } from "@fortawesome/free-solid-svg-icons";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { useEffect, useState } from "react";
 import GeoMap from "../GeoMap";
 import map from '../../assets/img/maps.jpg';
+import img from '../../assets/img/ICONE.png';
 
 const Presentation = ({ callback }) => {
     const [local, setLocal] = useState(undefined);
@@ -40,16 +39,16 @@ const Presentation = ({ callback }) => {
         <div className="regras">
             <h2>Leia atentamente antes de iniciar sua vistoria</h2>
             <div>
-                <FontAwesomeIcon icon={faCircleCheck} size='xl' />
-                Fotos e vídeos devem ser feitos em modo paisagem.
+                <img src={img} alt="check" className="icone" />
+                <span>Fotos e vídeos devem ser feitos em modo paisagem.</span>
             </div>
             <div>
-                <FontAwesomeIcon icon={faCircleCheck} size='xl' />
-                Procure saber onde está localizado o número do CHASSI do seu veículo.
+                <img src={img} alt="check" className="icone" />
+                <span>Procure saber onde está localizado o número do CHASSI do seu veículo.</span>
             </div>
             <div>
-                <FontAwesomeIcon icon={faCircleCheck} size='xl' />
-                Esteja em um local iluminado, não aceitamos vistorias feitas no interior de garagem ou em locais apertados e nunca utilize o FLASH.
+                <img src={img} alt="check" className="icone" />
+                <span>Esteja em um local iluminado, não aceitamos vistorias feitas no interior de garagem ou em locais apertados e nunca utilize o FLASH.</span>
             </div>
             { local && <button onClick={() => callback(local)}>Próxima</button> }
         </div>

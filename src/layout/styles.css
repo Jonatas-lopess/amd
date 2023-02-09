@@ -319,12 +319,18 @@ button{
 
 .regras div {
     margin: .5rem;
+    display: flex;
     flex-direction: row;
 }
 
-.regras svg {
+.icone {
     padding-right: .5rem;
-    color: var(--primary);
+    height: 1.5rem;
+    align-self: center;
+}
+
+.regras span {
+    font-weight: normal;
 }
 
 .regras button {
