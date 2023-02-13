@@ -69,11 +69,7 @@ const UploadFiles = ({ file ,fileURLCallback, fileType, submit, finishCallback =
                 setDialogStatus(prev => ({...prev, message: "Confirmando requisitos..."}))
 
                 getBase64(result).then(res => {
-                    setDialogStatus({
-                        open: false,
-                        message: PHOTO_NOT_VALID,
-                        action: true
-                    });
+                    setDialogStatus(prev => ({ ...prev, open: false }))
                 
                     fileURLCallback(res)
                 }).catch(err => {
