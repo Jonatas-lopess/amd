@@ -126,7 +126,7 @@ const Step = ({ data, changeData }) => {
         <div className='etapas'>
             <span className={infoId === 0 ? 'disable' : ''} onClick={infoId !== 0 ? () => changeData(prev => ({...prev, currentStep: prev.currentStep - 1})) : null}>&lt;</span>
             <h3>Etapa {(infoId + 1)}/{stepsNumber}</h3>
-            <span className={infoId === (stepsNumber - 1) || Number(sessionStorage.getItem(`${vistoria.id}_stp`)) <= infoId ? 'disable' : ''} onClick={infoId !== (stepsNumber - 1) && (fileURL || Number(sessionStorage.getItem(`${vistoria.id}_stp`)) > infoId) ? () => changeData(prev => ({...prev, currentStep: prev.currentStep + 1})) : null}>&gt;</span>
+            <span className={infoId === (stepsNumber - 1) || Number(sessionStorage.getItem(`${vistoria.id}_stp`)) <= infoId ? 'disable' : ''} onClick={infoId !== (stepsNumber - 1) && Number(sessionStorage.getItem(`${vistoria.id}_stp`)) > infoId ? () => changeData(prev => ({...prev, currentStep: prev.currentStep + 1})) : null}>&gt;</span>
             <span className='timer'>{`${timer.minutes}`.padStart(2, "0")}:{`${timer.seconds}`.padStart(2, "0")}</span>
         </div>
         {

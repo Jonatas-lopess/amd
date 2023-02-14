@@ -5,7 +5,7 @@ import { useState } from "react";
 import CustomDialog from '../CustomDialog';
 
 const UploadFiles = ({ file ,fileURLCallback, fileType, submit, finishCallback = false }) => {
-    const PHOTO_NOT_VALID = <>Atenção!<br/>Sua foto foi capturada com o celular em modo Retrato (em pé). Vamos tentar de novo? Precisamos da foto em modo PAISAGEM (com celular deitado) ok?</>
+    const PHOTO_NOT_VALID = <>Atenção!<br/>{fileType} foi capturada com o celular em modo Retrato (em pé). Vamos tentar de novo? Precisamos em modo PAISAGEM (com celular deitado) ok?</>
     const [dialogStatus, setDialogStatus] = useState({
         open: false,
         message: PHOTO_NOT_VALID,
@@ -61,6 +61,19 @@ const UploadFiles = ({ file ,fileURLCallback, fileType, submit, finishCallback =
             open: true,
             message: `Processando ${fileType}...`,
             action: false
+        });
+
+        if(file.type.includes("video/")) getBase64(file).then(res => {
+            setDialogStatus(prev => ({ ...prev, open: false }))
+        
+            fileURLCallback(res)
+        }).catch(err => {
+            console.log(err)
+            setDialogStatus({
+                action: true,
+                message: PHOTO_NOT_VALID,
+                open: true
+            });
         });
 
         new Compressor(file, {
