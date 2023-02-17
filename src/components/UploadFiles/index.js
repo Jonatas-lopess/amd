@@ -6,6 +6,7 @@ import CustomDialog from '../CustomDialog';
 
 const UploadFiles = ({ file ,fileURLCallback, fileType, submit, finishCallback = false }) => {
     const PHOTO_NOT_VALID = <>Atenção!<br/>{fileType} foi capturada com o celular em modo Retrato (em pé). Vamos tentar de novo? Precisamos em modo PAISAGEM (com celular deitado) ok?</>
+    const VIDEO_DURATION = <>A duração do vídeo ultrapassou o limite de 1 minuto. Por favor, tente novamente.</>
     const [dialogStatus, setDialogStatus] = useState({
         open: false,
         message: PHOTO_NOT_VALID,
@@ -45,6 +46,7 @@ const UploadFiles = ({ file ,fileURLCallback, fileType, submit, finishCallback =
                     video.src = baseURL;
                     video.onloadedmetadata = () => {
                         if (video.videoHeight > video.videoWidth) reject("Vídeo em modo retrato.");
+                        if (video.duration > 60) reject("Duração do vídeo ultrapassa o limite de 1 minuto.")
         
                         resolve(baseURL);
                     };
@@ -63,39 +65,42 @@ const UploadFiles = ({ file ,fileURLCallback, fileType, submit, finishCallback =
             action: false
         });
 
-        if(file.type.includes("video/")) getBase64(file).then(res => {
-            setDialogStatus(prev => ({ ...prev, open: false }))
-        
-            fileURLCallback(res)
-        }).catch(err => {
-            console.log(err)
-            setDialogStatus({
-                action: true,
-                message: PHOTO_NOT_VALID,
-                open: true
-            });
-        });
-
-        new Compressor(file, {
-            quality: 0.3,
-            success: (result) => {
-                setDialogStatus(prev => ({...prev, message: "Confirmando requisitos..."}))
-
-                getBase64(result).then(res => {
-                    setDialogStatus(prev => ({ ...prev, open: false }))
-                
-                    fileURLCallback(res)
-                }).catch(err => {
-                    console.log(err)
-                    setDialogStatus({
-                        action: true,
-                        message: PHOTO_NOT_VALID,
-                        open: true
-                    });
+        if(file.type.includes("video/")) {
+            console.log((file.size / 1024).toFixed(1))
+            getBase64(file).then(res => {
+                setDialogStatus(prev => ({ ...prev, open: false }))
+            
+                fileURLCallback(res)
+            }).catch(err => {
+                console.log(err)
+                setDialogStatus({
+                    action: true,
+                    message: err.includes("limite") ? VIDEO_DURATION : PHOTO_NOT_VALID,
+                    open: true
                 });
-            },
-            error: (err) => console.error(err)
-        });
+            })
+        } else {
+            new Compressor(file, {
+                quality: 0.3,
+                success: (result) => {
+                    setDialogStatus(prev => ({...prev, message: "Confirmando requisitos..."}))
+
+                    getBase64(result).then(res => {
+                        setDialogStatus(prev => ({ ...prev, open: false }))
+                    
+                        fileURLCallback(res)
+                    }).catch(err => {
+                        console.log(err)
+                        setDialogStatus({
+                            action: true,
+                            message: PHOTO_NOT_VALID,
+                            open: true
+                        });
+                    });
+                },
+                error: (err) => console.error(err)
+            });
+        }
     }
 
     return <>
