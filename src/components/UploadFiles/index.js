@@ -61,12 +61,11 @@ const UploadFiles = ({ file ,fileURLCallback, fileType, submit, finishCallback =
 
         setDialogStatus({
             open: true,
-            message: `Processando ${fileType}...`,
+            message: (file.size / 1024).toFixed(1),
             action: false
         });
 
         if(file.type.includes("video/")) {
-            console.log((file.size / 1024).toFixed(1))
             getBase64(file).then(res => {
                 setDialogStatus(prev => ({ ...prev, open: false }))
             
