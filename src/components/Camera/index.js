@@ -12,8 +12,8 @@ export const Camera = ({ callback }) => {
                     audio: false,
                     video: {
                         facingMode: { exact: "environment" },
-                        //width: { ideal: 640, max: 1280 },
-                        //height: { ideal: 480, max: 720 }
+                        width: { ideal: 640, max: 1280 },
+                        height: { ideal: 480, max: 720 }
                     },
                 }
               )
