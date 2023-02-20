@@ -447,7 +447,7 @@ textarea {
 }
 
 .camera-container {
-    position: absolute;
+    position: fixed;
     z-index: 40;
     right: 0;
     bottom: 0;
@@ -456,7 +456,7 @@ textarea {
 }
 
 .camera-buttons {
-    position: absolute;
+    position: fixed;
     z-index: 50;
     bottom: 0;
     width: 100%;
