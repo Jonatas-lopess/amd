@@ -461,8 +461,27 @@ textarea {
 .camera-buttons {
     position: fixed;
     z-index: 50;
-    bottom: 0;
-    width: 100vw;
+}
+
+@media (orientation: portrait) {
+    .camera-buttons{
+        bottom: 0;
+        width: 100vw;
+        height: auto;
+    }
+}
+
+@media (orientation: landscape) {
+    .camera-buttons {
+        right: 0;
+        top: 43vh;
+        width: auto;
+        height: 100vh;
+    }
+
+    #record {
+        margin: auto 1.5rem;
+    }
 }
 
 @media (min-width: 576px) {
