@@ -4,8 +4,6 @@ export const Camera = ({ callback }) => {
     const [recording, setRecording] = useState(false)
 
     useEffect(() => {
-        if (navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {
-            console.log("getUserMedia supported.");
             navigator.mediaDevices
               .getUserMedia(
                 {
@@ -41,9 +39,6 @@ export const Camera = ({ callback }) => {
               .catch((err) => {
                 console.error(`The following getUserMedia error occurred: ${err}`);
             });
-        } else {
-            console.log("getUserMedia not supported on your browser!");
-        }
     }, [])
 
     return <>

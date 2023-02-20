@@ -446,7 +446,7 @@ textarea {
     text-transform: uppercase;
 }
 
-.camera-container {
+#camera-container {
     position: fixed;
     z-index: 40;
     right: 0;

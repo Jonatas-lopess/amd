@@ -29,7 +29,7 @@ const DataBuffer = ({ request }) => {
 
     
     useEffect(() => {
-        if(window.sessionStorage) {}
+        if(window.sessionStorage && navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {}
     }, [])
 
     useEffect(() => {
