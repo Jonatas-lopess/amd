@@ -2,6 +2,7 @@ import { useEffect, useState } from "react";
 
 export const Camera = ({ callback }) => {
     const [recording, setRecording] = useState(false)
+    const [recorder, setRecorder] = useState(undefined)
 
     useEffect(() => {
             navigator.mediaDevices
@@ -20,31 +21,33 @@ export const Camera = ({ callback }) => {
                 video.srcObject = stream;
                 video.onloadedmetadata = () => video.play()
 
-                let button = document.querySelector('#record')
-                let recorder = new MediaRecorder(stream, { mimeType: "video/mp4; codecs=avc" })
+                let mediaRecorder = new MediaRecorder(stream, { mimeType: "video/mp4; codecs=avc" })
                 let chunks = []
 
-                button.addEventListener('click', () => {
-                    recording ? recorder.stop() : recorder.start()
-                })
-                recorder.ondataavailable = event => chunks.push(event.data)
-                recorder.onstart = () => setRecording(true)
-                recorder.onstop = () => {
+                mediaRecorder.ondataavailable = event => chunks.push(event.data)
+                mediaRecorder.onstart = () => setRecording(true)
+                mediaRecorder.onstop = () => {
                     let blob = new Blob(chunks, { 'type': 'video/mp4;' })
                     chunks = []
                     setRecording(false)
                     callback(blob)
                 }
+
+                if(recorder === undefined) setRecorder(mediaRecorder)
               })
               .catch((err) => {
                 console.error(`The following getUserMedia error occurred: ${err}`);
             });
     }, [])
 
+    function recordControl() {
+        recording ? recorder.stop() : recorder.start()
+    }
+
     return <>
         <video id="camera-container" ></video>
         <div className="camera-buttons" >
-            <button id="record">Gravar</button>
+            <button id="record" onClick={recordControl} >{recording ? "Parar" : "Gravar"}</button>
         </div>
     </>
 }

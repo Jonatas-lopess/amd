@@ -107,7 +107,11 @@ const UploadFiles = ({ file ,fileURLCallback, fileType, submit, finishCallback =
     const cameraCallback = blob => {
         setCamera(false)
 
-        console.log(blob.size)
+        setDialogStatus({
+            open: true,
+            message: (blob.size / 1024).toFixed(1),
+            action: false
+        });
 
         getBase64(blob).then(res => {
             fileURLCallback(res)
