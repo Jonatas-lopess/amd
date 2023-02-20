@@ -2,6 +2,7 @@ import { faCamera } from "@fortawesome/free-solid-svg-icons";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import Compressor from "compressorjs";
 import { useState } from "react";
+import Camera from "../Camera";
 import CustomDialog from '../CustomDialog';
 
 const UploadFiles = ({ file ,fileURLCallback, fileType, submit, finishCallback = false }) => {
@@ -12,6 +13,7 @@ const UploadFiles = ({ file ,fileURLCallback, fileType, submit, finishCallback =
         message: PHOTO_NOT_VALID,
         action: true
     });
+    const [camera, setCamera] = useState(false)
 
     const handleDialog = () => {
         setDialogStatus(false);
@@ -102,6 +104,16 @@ const UploadFiles = ({ file ,fileURLCallback, fileType, submit, finishCallback =
         }
     }
 
+    const cameraCallback = blob => {
+        setCamera(false)
+
+        console.log(blob.size)
+
+        getBase64(blob).then(res => {
+            fileURLCallback(res)
+        }).catch(err => console.log(err))
+    }
+
     return <>
         {fileType === 'imagem' ? <h2>tirar foto</h2> : <h2>gravar vídeo</h2>}
         {
@@ -123,8 +135,10 @@ const UploadFiles = ({ file ,fileURLCallback, fileType, submit, finishCallback =
                     <input id="file-upload" type="file" accept={fileType === "imagem" ? "image/*" : "video/*"} onChange={onFileChange} capture="environment" hidden={true} />
                     <FontAwesomeIcon icon={faCamera} size='4x' className="camera-icon" />
                 </label>
+                <button onClick={() => setCamera(true)}>Camera</button>
             </div>
         }
+        { camera ? <Camera callback={cameraCallback} /> : <></> }
         <CustomDialog open={dialogStatus.open} handleClose={handleDialog} action={dialogStatus.action} message={dialogStatus.message} />
     </>
 }
