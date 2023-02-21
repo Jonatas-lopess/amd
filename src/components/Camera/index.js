@@ -21,7 +21,7 @@ export const Camera = ({ callback }) => {
                 video.srcObject = stream;
                 video.onloadedmetadata = () => video.play()
 
-                let mediaRecorder = new MediaRecorder(stream, { mimeType: "video/mp4; codecs=avc" })
+                let mediaRecorder = new MediaRecorder(stream, { videoBitsPerSecond: 1100000, mimeType: "video/mp4; codecs=avc1.4d002a" })
                 let chunks = []
 
                 mediaRecorder.ondataavailable = event => chunks.push(event.data)
@@ -33,7 +33,7 @@ export const Camera = ({ callback }) => {
                     callback(blob)
                 }
 
-                if(recorder === undefined) setRecorder(mediaRecorder)
+                setRecorder(mediaRecorder)
               })
               .catch((err) => {
                 console.error(`The following getUserMedia error occurred: ${err}`);
