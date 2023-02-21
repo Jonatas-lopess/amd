@@ -20,7 +20,7 @@ export const Camera = ({ callback }) => {
                 video.srcObject = stream;
                 video.onloadedmetadata = () => video.play()
 
-                let mediaRecorder = new MediaRecorder(stream, { videoBitsPerSecond: 1100000, mimeType: "video/mp4" })
+                let mediaRecorder = new MediaRecorder(stream, { videoBitsPerSecond: 1100000 })
                 let chunks = []
 
                 mediaRecorder.ondataavailable = event => chunks.push(event.data)
