@@ -47,7 +47,9 @@ export const Camera = ({ callback }) => {
     return <>
         <video id="camera-container" ></video>
         <div className="camera-buttons" >
-            <button id="record" onClick={recordControl} >{recording ? "Parar" : "Gravar"}</button>
+            <div className="border">
+                <button id="record" className={recording ? "recording" : ""} onClick={recordControl} ></button>
+            </div>
         </div>
     </>
 }

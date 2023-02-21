@@ -463,6 +463,26 @@ textarea {
     z-index: 50;
 }
 
+.border {
+    margin: 1.5rem auto;
+    width: fit-content;
+    height: fit-content;
+    border: 0.5em solid #ffffff;
+    padding: 2px;
+    border-radius: 100%;
+}
+
+#record {
+    border-radius: 100%;
+    background-color: #ffffff;
+    margin: 0;
+    padding: 1.5rem;
+}
+
+.recording {
+    background-color: red !important;
+}
+
 @media (orientation: portrait) {
     .camera-buttons{
         bottom: 0;
