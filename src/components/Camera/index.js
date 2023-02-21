@@ -38,6 +38,8 @@ export const Camera = ({ callback }) => {
     }, [])
 
     const handleRecord = () => {
+        if(!recorder) return
+
         recorder.state === "recording" ? recorder.stop() : recorder.start()
     }
 
