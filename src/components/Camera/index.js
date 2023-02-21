@@ -34,7 +34,7 @@ export const Camera = ({ callback }) => {
 
                 let button = document.querySelector("#record")
                 button.addEventListener('click', () => {
-                    mediaRecorder.start()
+                    recording ? mediaRecorder.stop() : mediaRecorder.start()
                 })
               })
               .catch((err) => {
