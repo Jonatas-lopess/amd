@@ -28,6 +28,8 @@ export const Camera = ({ callback }) => {
                 mediaRecorder.onstop = () => {
                     let blob = new Blob(chunks, { 'type': 'video/mp4;' })
                     chunks = []
+
+                    stream.getTracks().forEach(track => track.stop())
                     setRecording(false)
                     callback(blob)
                 }

@@ -63,45 +63,30 @@ const UploadFiles = ({ file ,fileURLCallback, fileType, submit, finishCallback =
 
         setDialogStatus({
             open: true,
-            message: (file.size / 1024).toFixed(1),
+            message: 'Processando Imagem...',
             action: false
         });
 
-        if(file.type.includes("video/")) {
-            getBase64(file).then(res => {
-                setDialogStatus(prev => ({ ...prev, open: false }))
-            
-                fileURLCallback(res)
-            }).catch(err => {
-                console.log(err)
-                setDialogStatus({
-                    action: true,
-                    message: err.includes("limite") ? VIDEO_DURATION : PHOTO_NOT_VALID,
-                    open: true
-                });
-            })
-        } else {
-            new Compressor(file, {
-                quality: 0.3,
-                success: (result) => {
-                    setDialogStatus(prev => ({...prev, message: "Confirmando requisitos..."}))
+        new Compressor(file, {
+            quality: 0.3,
+            success: (result) => {
+                setDialogStatus(prev => ({...prev, message: "Confirmando requisitos..."}))
 
-                    getBase64(result).then(res => {
-                        setDialogStatus(prev => ({ ...prev, open: false }))
-                    
-                        fileURLCallback(res)
-                    }).catch(err => {
-                        console.log(err)
-                        setDialogStatus({
-                            action: true,
-                            message: PHOTO_NOT_VALID,
-                            open: true
-                        });
+                getBase64(result).then(res => {
+                    setDialogStatus(prev => ({ ...prev, open: false }))
+                
+                    fileURLCallback(res)
+                }).catch(err => {
+                    console.log(err)
+                    setDialogStatus({
+                        action: true,
+                        message: PHOTO_NOT_VALID,
+                        open: true
                     });
-                },
-                error: (err) => console.error(err)
-            });
-        }
+                });
+            },
+            error: (err) => console.error(err)
+        });
     }
 
     const cameraCallback = blob => {
@@ -109,13 +94,22 @@ const UploadFiles = ({ file ,fileURLCallback, fileType, submit, finishCallback =
 
         setDialogStatus({
             open: true,
-            message: (blob.size / 1024).toFixed(1),
+            message: 'Processando Vídeo...',
             action: false
         });
 
         getBase64(blob).then(res => {
+            setDialogStatus(prev => ({ ...prev, open: false }))
+        
             fileURLCallback(res)
-        }).catch(err => console.log(err))
+        }).catch(err => {
+            console.log(err)
+            setDialogStatus({
+                action: true,
+                message: err.includes("limite") ? VIDEO_DURATION : PHOTO_NOT_VALID,
+                open: true
+            });
+        })
     }
 
     return <>
@@ -124,7 +118,7 @@ const UploadFiles = ({ file ,fileURLCallback, fileType, submit, finishCallback =
         file
          ?  <div className="file-buttons">
                 <label htmlFor="file-upload">
-                    <input id="file-upload" type="file" accept={fileType === "imagem" ? "image/*" : "video/*"} onChange={onFileChange} capture="environment" hidden={true} />          
+                    { fileType === "imagem" ? <input id="file-upload" type="file" accept="image/*" onChange={onFileChange} capture="environment" hidden={true} /> : <button id="file-upload" onClick={() => setCamera(true)} hidden={true} ></button> }
                     Repetir
                 </label>
                 {
@@ -136,10 +130,9 @@ const UploadFiles = ({ file ,fileURLCallback, fileType, submit, finishCallback =
             </div>
          :  <div className="camera">
                 <label htmlFor="file-upload">
-                    <input id="file-upload" type="file" accept={fileType === "imagem" ? "image/*" : "video/*"} onChange={onFileChange} capture="environment" hidden={true} />
+                    { fileType === "imagem" ? <input id="file-upload" type="file" accept="image/*" onChange={onFileChange} capture="environment" hidden={true} /> : <button id="file-upload" onClick={() => setCamera(true)} hidden={true} ></button> }
                     <FontAwesomeIcon icon={faCamera} size='4x' className="camera-icon" />
                 </label>
-                <button onClick={() => setCamera(true)}>Camera</button>
             </div>
         }
         { camera ? <Camera callback={cameraCallback} /> : <></> }
