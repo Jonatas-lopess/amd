@@ -2,7 +2,6 @@ import { useEffect, useState } from "react";
 
 export const Camera = ({ callback }) => {
     const [recording, setRecording] = useState(false)
-    const [recorder, setRecorder] = useState(undefined)
 
     useEffect(() => {
             navigator.mediaDevices
@@ -33,22 +32,21 @@ export const Camera = ({ callback }) => {
                     callback(blob)
                 }
 
-                setRecorder(mediaRecorder)
+                let button = document.querySelector("#record")
+                button.addEventListener('click', () => {
+                    mediaRecorder.start()
+                })
               })
               .catch((err) => {
                 console.error(`The following getUserMedia error occurred: ${err}`);
             });
     }, [])
 
-    function recordControl() {
-        recording ? recorder.stop() : recorder.start()
-    }
-
     return <>
         <video id="camera-container" ></video>
         <div className="camera-buttons" >
             <div className="border">
-                <button id="record" className={recording ? "recording" : ""} onClick={recordControl} ></button>
+                <button id="record" className={recording ? "recording" : ""} ></button>
             </div>
         </div>
     </>
