@@ -96,6 +96,8 @@ const UploadFiles = ({ file ,fileURLCallback, fileType, submit, finishCallback =
             action: false
         });
 
+        console.log((blob.size / 1024).toFixed(1))
+
         getBase64(blob).then(res => {
             setDialogStatus(prev => ({ ...prev, open: false }))
         
@@ -116,7 +118,7 @@ const UploadFiles = ({ file ,fileURLCallback, fileType, submit, finishCallback =
         file
          ?  <div className="file-buttons">
                 <label htmlFor="file-upload">
-                    { fileType === "imagem" ? <input id="file-upload" type="file" accept="image/*" onChange={onFileChange} capture="environment" hidden={true} /> : <button id="file-upload" onClick={() => setCamera(true)} hidden={true} ></button> }
+                    { fileType === "imagem" ? <input id="file-upload" type="file" accept="image/*" onChange={onFileChange} capture="environment" hidden={true} /> : <input type="button" id="file-upload" onClick={() => setCamera(true)} hidden={true} /> }
                     Repetir
                 </label>
                 {
@@ -128,7 +130,7 @@ const UploadFiles = ({ file ,fileURLCallback, fileType, submit, finishCallback =
             </div>
          :  <div className="camera">
                 <label htmlFor="file-upload">
-                    { fileType === "imagem" ? <input id="file-upload" type="file" accept="image/*" onChange={onFileChange} capture="environment" hidden={true} /> : <button id="file-upload" onClick={() => setCamera(true)} hidden={true} ></button> }
+                    { fileType === "imagem" ? <input id="file-upload" type="file" accept="image/*" onChange={onFileChange} capture="environment" hidden={true} /> : <input type="button" id="file-upload" onClick={() => setCamera(true)} hidden={true} /> }
                     <FontAwesomeIcon icon={faCamera} size='4x' className="camera-icon" />
                 </label>
             </div>
