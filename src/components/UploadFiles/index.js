@@ -7,7 +7,6 @@ import CustomDialog from '../CustomDialog';
 
 const UploadFiles = ({ file ,fileURLCallback, fileType, submit, finishCallback = false }) => {
     const PHOTO_NOT_VALID = <>Atenção!<br/>{fileType} foi capturada com o celular em modo Retrato (em pé). Vamos tentar de novo? Precisamos em modo PAISAGEM (com celular deitado) ok?</>
-    const VIDEO_DURATION = <>A duração do vídeo ultrapassou o limite de 1 minuto. Por favor, tente novamente.</>
     const [dialogStatus, setDialogStatus] = useState({
         open: false,
         message: PHOTO_NOT_VALID,
@@ -48,7 +47,6 @@ const UploadFiles = ({ file ,fileURLCallback, fileType, submit, finishCallback =
                     video.src = baseURL;
                     video.onloadedmetadata = () => {
                         if (video.videoHeight > video.videoWidth) reject("Vídeo em modo retrato.");
-                        if (video.duration > 60) reject("Duração do vídeo ultrapassa o limite de 1 minuto.")
         
                         resolve(baseURL);
                     };
@@ -106,7 +104,7 @@ const UploadFiles = ({ file ,fileURLCallback, fileType, submit, finishCallback =
             console.log(err)
             setDialogStatus({
                 action: true,
-                message: err.includes("limite") ? VIDEO_DURATION : PHOTO_NOT_VALID,
+                message: PHOTO_NOT_VALID,
                 open: true
             });
         })

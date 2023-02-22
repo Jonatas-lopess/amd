@@ -494,12 +494,12 @@ textarea {
 @media (orientation: landscape) {
     .camera-buttons {
         right: 0;
-        top: 43vh;
+        top: 40vh;
         width: auto;
         height: 100vh;
     }
 
-    #record {
+    .border {
         margin: auto 1.5rem;
     }
 }
