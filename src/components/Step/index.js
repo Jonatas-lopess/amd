@@ -104,7 +104,8 @@ const Step = ({ data, changeData }) => {
             if(typeof response !== 'object') throw Error(`Erro no envio de ${info.tipo}`);
 
             if(info.tipo === 'button') {
-                window.location.reload();
+                sessionStorage.removeItem(`${vistoria.id}_stp`)
+                window.location.reload()
             } else {
                 setDialogStatus(prev => ({...prev, open: false}))
 

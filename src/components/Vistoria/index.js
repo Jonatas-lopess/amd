@@ -3,7 +3,7 @@ import Step from '../Step';
 
 const Vistoria = ({ data }) => {
     const [vistoriaState, setVistoriaState] = useState({
-        currentStep: 0,
+        currentStep: sessionStorage.getItem(`${data.id}_stp`) === null ? 0 : Number(sessionStorage.getItem(`${data.id}_stp`)),
         vistoria: data
     })
 
