@@ -4,10 +4,10 @@ const SECOND = 1000;
 const MINUTE = SECOND * 60;
 
 const useTimer = () => {
-    const [timespan, setTimespan] = useState(sessionStorage.getItem('timer') ? Number(sessionStorage.getItem('timer')) : 0);
+    const [timespan, setTimespan] = useState(localStorage.getItem('timer') ? Number(localStorage.getItem('timer')) : 0);
 
     useEffect(() => {
-        sessionStorage.setItem('timer', timespan);
+        localStorage.setItem('timer', timespan);
         let timeout = setTimeout(() => setTimespan(prev => prev + SECOND), SECOND);
 
         return () => clearTimeout(timeout);

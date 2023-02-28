@@ -90,9 +90,9 @@ const Step = ({ data, changeData }) => {
         try {
             if(info.tipo === 'button') {
                 info.cache = new Date().toString();
-                info.latitude = Number(sessionStorage.getItem('location_lat'));
-                info.longitude = Number(sessionStorage.getItem('location_lng'));
-                info.dt_ini = sessionStorage.getItem('initial');
+                info.latitude = Number(localStorage.getItem('location_lat'));
+                info.longitude = Number(localStorage.getItem('location_lng'));
+                info.dt_ini = localStorage.getItem('initial');
             } else { info.cache = fileURL }
             vistoria.vistoriaEtapas = [{
                 "imagens": [info]
@@ -104,13 +104,13 @@ const Step = ({ data, changeData }) => {
             if(typeof response !== 'object') throw Error(`Erro no envio de ${info.tipo}`);
 
             if(info.tipo === 'button') {
-                sessionStorage.removeItem(`${vistoria.id}_stp`)
+                localStorage.removeItem(`${vistoria.id}_stp`)
                 window.location.reload()
             } else {
                 setDialogStatus(prev => ({...prev, open: false}))
 
                 changeData(prev => {
-                    sessionStorage.setItem(`${vistoria.id}_stp`, prev.currentStep + 1);
+                    localStorage.setItem(`${vistoria.id}_stp`, prev.currentStep + 1);
                     return ({ currentStep: prev.currentStep + 1, vistoria: response })
                 });
             }
@@ -127,7 +127,7 @@ const Step = ({ data, changeData }) => {
         <div className='etapas'>
             <span className={infoId === 0 ? 'disable' : ''} onClick={infoId !== 0 ? () => changeData(prev => ({...prev, currentStep: prev.currentStep - 1})) : null}>&lt;</span>
             <h3>Etapa {(infoId + 1)}/{stepsNumber}</h3>
-            <span className={infoId === (stepsNumber - 1) || Number(sessionStorage.getItem(`${vistoria.id}_stp`)) <= infoId ? 'disable' : ''} onClick={infoId !== (stepsNumber - 1) && Number(sessionStorage.getItem(`${vistoria.id}_stp`)) > infoId ? () => changeData(prev => ({...prev, currentStep: prev.currentStep + 1})) : null}>&gt;</span>
+            <span className={infoId === (stepsNumber - 1) || Number(localStorage.getItem(`${vistoria.id}_stp`)) <= infoId ? 'disable' : ''} onClick={infoId !== (stepsNumber - 1) && Number(localStorage.getItem(`${vistoria.id}_stp`)) > infoId ? () => changeData(prev => ({...prev, currentStep: prev.currentStep + 1})) : null}>&gt;</span>
             <span className='timer'>{`${timer.minutes}`.padStart(2, "0")}:{`${timer.seconds}`.padStart(2, "0")}</span>
         </div>
         {

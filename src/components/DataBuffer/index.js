@@ -23,18 +23,18 @@ const DataBuffer = ({ request }) => {
         }
     }
     const [local, setLocal] = useState({
-        lat: Number(sessionStorage.getItem('location_lat')),
-        lng: Number(sessionStorage.getItem('location_lng'))
+        lat: Number(localStorage.getItem('location_lat')),
+        lng: Number(localStorage.getItem('location_lng'))
     });
 
     
     useEffect(() => {
-        if(window.sessionStorage && navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {}
+        if(window.localStorage && navigator.mediaDevices && navigator.mediaDevices.getUserMedia) {}
     }, [])
 
     useEffect(() => {
-        sessionStorage.setItem('location_lat', local.lat);
-        sessionStorage.setItem('location_lng', local.lng);
+        localStorage.setItem('location_lat', local.lat);
+        localStorage.setItem('location_lng', local.lng);
     }, [local])
 
     setCSSVariables();

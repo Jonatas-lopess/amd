@@ -12,7 +12,7 @@ export class ErrorBoundary extends Component {
 
     render() {
       if (this.state.error) {
-        if(this.state.error.message.includes("Failed to read the 'sessionStorage'")) {
+        if(this.state.error.message.includes("Failed to read the 'localStorage'")) {
           return <ErrorPage message={"Por favor, para funcionamento do site, habilite os Cookies"} />;
         } else {
           return <ErrorPage message={this.state.error.message} />;

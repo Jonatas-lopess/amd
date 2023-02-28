@@ -13,7 +13,7 @@ const Menu = ({ local, vistoria }) => {
         avarias: false,
         observation: false
     });
-    const [atual, setAtual] = useState(sessionStorage.getItem(`${vistoria.id}_stp`) === null ? undefined : "vistoria");
+    const [atual, setAtual] = useState(localStorage.getItem(`${vistoria.id}_stp`) === null ? undefined : "vistoria");
     
     const list = {
         vistoria: <Vistoria data={vistoria} />,
@@ -22,8 +22,8 @@ const Menu = ({ local, vistoria }) => {
     }
 
     useEffect(() => {
-        sessionStorage.removeItem('initial');
-        sessionStorage.removeItem('timer');
+        localStorage.removeItem('initial');
+        localStorage.removeItem('timer');
     }, [])
 
     return atual
