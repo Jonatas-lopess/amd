@@ -1,33 +1,23 @@
 import React, { memo } from "react";
-import { GoogleMap, useJsApiLoader, Marker } from '@react-google-maps/api';
+import { MapContainer, TileLayer, CircleMarker } from 'react-leaflet';
+import 'leaflet/dist/leaflet.css';
 
 const GeoMap = ({ mapProps }) => {
-    const mapStyle = {
-        height: '20vh',
-        maxWidth: '50vw',
-        width: '100%',
-        overflowX: 'hidden',
-        overflowY: 'hidden',
-        margin: '1rem auto'
-    }
-
-    const { isLoaded } = useJsApiLoader({
-        id: 'google-map-script',
-        googleMapsApiKey: "AIzaSyBjj77pFcx4YOGyV3TdrZYoTXZ00ry7LUg"
-    });
-
-    return isLoaded ? (
-        <div style={mapStyle}>
-            <GoogleMap
-                mapContainerStyle={{ height: '100%', width: '100%', }}
-                center={mapProps}
-                zoom={15}
-                options={{disableDefaultUI: true, zoom: 15}}
+    return <div className="map">
+            <MapContainer
+                style={{ height: '100%', width: '100%', }}
+                center={[mapProps.lat, mapProps.lng]}
+                zoom={14}
+                zoomControl={false}
+                attributionControl={false}
             >
-                <Marker position={mapProps} />
-            </GoogleMap>
+                <TileLayer
+                    attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a> contributors'
+                    url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+                />
+                <CircleMarker center={[mapProps.lat, mapProps.lng]} />
+            </MapContainer>
         </div>
-    ) : <></>
 }
 
 export default memo(GeoMap);

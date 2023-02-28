@@ -487,6 +487,19 @@ textarea {
     background-color: red !important;
 }
 
+.map {
+    height: 20vh;
+    max-width: 50vw;
+    width: 100%;
+    overflow-x: hidden;
+    overflow-y: hidden;
+    margin: 1rem auto;
+}
+
+.map .leaflet-control-container {
+    display: block;
+}
+
 @media (orientation: portrait) {
     .camera-buttons{
         bottom: 0;
