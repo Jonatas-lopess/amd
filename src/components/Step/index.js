@@ -23,7 +23,7 @@ const Step = ({ data, changeData }) => {
     });
     const [dialogStatus, setDialogStatus] = useState({
         open: false,
-        message: `Salvando ${info.tipo}...`,
+        message: `Salvando ${info.tipo === 'button' ? 'Vistoria' : info.tipo}...`,
         action: false
     });
     const stepsNumber = countSteps();
@@ -91,7 +91,10 @@ const Step = ({ data, changeData }) => {
 
         try {
             if(info.tipo === 'button') {
-                info.cache = new Date().toString();
+                let date = new Date();
+                let newdate = `${date.getDate()}`.padStart(2, "0") + "/" + (`${date.getMonth() + 1}`.padStart(2, "0")) + "/" + date.getFullYear() + " " + `${date.getHours()}`.padStart(2, "0") + ":" + `${date.getMinutes()}`.padStart(2, "0") + ":" + `${date.getSeconds()}`.padStart(2, "0");
+        
+                info.cache = newdate;
                 info.latitude = Number(localStorage.getItem('location_lat'));
                 info.longitude = Number(localStorage.getItem('location_lng'));
                 info.dt_ini = localStorage.getItem('initial');
@@ -117,6 +120,8 @@ const Step = ({ data, changeData }) => {
                 });
             }
         } catch (error) {
+            setDialogStatus(prev => ({...prev, open: false}))
+
             setSnack({
                 type: 'error',
                 message: error.message,
