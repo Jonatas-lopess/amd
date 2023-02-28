@@ -6,6 +6,8 @@ import useTimer from '../Timer';
 import saveData from '../../api/saveData';
 import CustomDialog from '../CustomDialog';
 import errorImg from '../../assets/img/no-image.png';
+import proxImg from '../../assets/img/proximo.png';
+import antImg from '../../assets/img/anterior.png';
 
 const Step = ({ data, changeData }) => {
     const vistoria = data.vistoria;
@@ -125,9 +127,9 @@ const Step = ({ data, changeData }) => {
 
     return <>
         <div className='etapas'>
-            <span className={infoId === 0 ? 'disable' : ''} onClick={infoId !== 0 ? () => changeData(prev => ({...prev, currentStep: prev.currentStep - 1})) : null}>&lt;</span>
+            <span className={infoId === 0 ? 'disable' : ''} onClick={infoId !== 0 ? () => changeData(prev => ({...prev, currentStep: prev.currentStep - 1})) : null}><img src={antImg} alt="prev" /></span>
             <h3>Etapa {(infoId + 1)}/{stepsNumber}</h3>
-            <span className={infoId === (stepsNumber - 1) || Number(localStorage.getItem(`${vistoria.id}_stp`)) <= infoId ? 'disable' : ''} onClick={infoId !== (stepsNumber - 1) && Number(localStorage.getItem(`${vistoria.id}_stp`)) > infoId ? () => changeData(prev => ({...prev, currentStep: prev.currentStep + 1})) : null}>&gt;</span>
+            <span className={infoId === (stepsNumber - 1) || Number(localStorage.getItem(`${vistoria.id}_stp`)) <= infoId ? 'disable' : ''} onClick={infoId !== (stepsNumber - 1) && Number(localStorage.getItem(`${vistoria.id}_stp`)) > infoId ? () => changeData(prev => ({...prev, currentStep: prev.currentStep + 1})) : null}><img src={proxImg} alt="next" /></span>
             <span className='timer'>{`${timer.minutes}`.padStart(2, "0")}:{`${timer.seconds}`.padStart(2, "0")}</span>
         </div>
         {
