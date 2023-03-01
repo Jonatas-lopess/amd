@@ -36,6 +36,7 @@ export const Camera = ({ callback }) => {
 
                 let button = document.querySelector("#record")
                 button.addEventListener('click', () => {
+                    recording ? setRecording(false) : setRecording(true)
                     mediaRecorder.state === "recording" ? mediaRecorder.stop() : mediaRecorder.start()
                 })
               })
