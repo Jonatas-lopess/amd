@@ -9,11 +9,11 @@ import img from '../../assets/img/ICONE.png';
 
 const Menu = ({ local, vistoria }) => {
     const [fase, setFase] = useState({
-        vistoria: vistoria.vistoriaEtapas[vistoria.vistoriaEtapas.length - 1].imagens[0].cache ? true : false,
+        vistoria: vistoria.data_aprov !== "",
         avarias: false,
         observation: false
     });
-    const [atual, setAtual] = useState(localStorage.getItem(`${vistoria.id}_stp`) === null ? undefined : "vistoria");
+    const [atual, setAtual] = useState(localStorage.getItem('atual'));
     
     const list = {
         vistoria: <Vistoria data={vistoria} />,
@@ -31,9 +31,9 @@ const Menu = ({ local, vistoria }) => {
          : <>
             <GeoMap mapProps={local} />
             <div className="menu">
-                <div onClick={() => fase.vistoria === false ? setAtual("vistoria") : null}>
+                <div onClick={() => !fase.vistoria ? setAtual("vistoria") : null}>
                     <span>Iniciar vistoria</span>
-                    { fase.vistoria === true ? <img src={img} alt="check" className="icone" /> : <FontAwesomeIcon icon={faPlay} size="xl" /> }
+                    { fase.vistoria ? <img src={img} alt="check" className="icone" /> : <FontAwesomeIcon icon={faPlay} size="xl" /> }
                 </div>
                 <div className={fase.vistoria === false ? "disable" : ""}>
                     <span>Danos e Avarias</span>

@@ -109,15 +109,15 @@ const Step = ({ data, changeData }) => {
             if(typeof response !== 'object') throw Error(`Erro no envio de ${info.tipo}`);
 
             if(info.tipo === 'button') {
-                localStorage.removeItem(`${vistoria.id}_stp`)
+                localStorage.removeItem('atual')
                 window.location.reload()
             } else {
                 setDialogStatus(prev => ({...prev, open: false}))
 
-                changeData(prev => {
-                    localStorage.setItem(`${vistoria.id}_stp`, prev.currentStep + 1);
-                    return ({ currentStep: prev.currentStep + 1, vistoria: response })
-                });
+                changeData(prev => ({
+                    vistoria: response,
+                    currentStep : prev.currentStep + 1
+                }));
             }
         } catch (error) {
             setDialogStatus(prev => ({...prev, open: false}))
@@ -134,7 +134,7 @@ const Step = ({ data, changeData }) => {
         <div className='etapas'>
             <span className={infoId === 0 ? 'disable' : ''} onClick={infoId !== 0 ? () => changeData(prev => ({...prev, currentStep: prev.currentStep - 1})) : null}><img src={antImg} alt="prev" /></span>
             <h3>Etapa {(infoId + 1)}/{stepsNumber}</h3>
-            <span className={infoId === (stepsNumber - 1) || Number(localStorage.getItem(`${vistoria.id}_stp`)) <= infoId ? 'disable' : ''} onClick={infoId !== (stepsNumber - 1) && Number(localStorage.getItem(`${vistoria.id}_stp`)) > infoId ? () => changeData(prev => ({...prev, currentStep: prev.currentStep + 1})) : null}><img src={proxImg} alt="next" /></span>
+            <span className={infoId === (stepsNumber - 1) || info.imagem.substr(0, 24) === "/Modulos/Seguro/Api/img/" ? 'disable' : ''} onClick={infoId !== (stepsNumber - 1) && info.imagem.substr(0, 24) !== "/Modulos/Seguro/Api/img/" ? () => changeData(prev => ({...prev, currentStep: prev.currentStep + 1})) : null}><img src={proxImg} alt="next" /></span>
             <span className='timer'>{`${timer.minutes}`.padStart(2, "0")}:{`${timer.seconds}`.padStart(2, "0")}</span>
         </div>
         {
