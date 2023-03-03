@@ -13,7 +13,7 @@ const Menu = ({ local, vistoria }) => {
         avarias: false,
         observation: false
     });
-    const [atual, setAtual] = useState(localStorage.getItem('atual'));
+    const [atual, setAtual] = useState(handleAtual());
     
     const list = {
         vistoria: <Vistoria data={vistoria} />,
@@ -22,9 +22,18 @@ const Menu = ({ local, vistoria }) => {
     }
 
     useEffect(() => {
-        localStorage.removeItem('initial');
         localStorage.removeItem('timer');
     }, [])
+
+    function handleAtual() {
+        let atual = localStorage.getItem('atual')
+        if(!atual || !atual.includes(vistoria.id)) {
+            localStorage.removeItem('atual')
+            return null;
+        }
+
+        return "vistoria";
+    }
 
     return atual
          ? list[atual]

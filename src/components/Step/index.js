@@ -97,7 +97,7 @@ const Step = ({ data, changeData }) => {
                 info.cache = newdate;
                 info.latitude = Number(localStorage.getItem('location_lat'));
                 info.longitude = Number(localStorage.getItem('location_lng'));
-                info.dt_ini = localStorage.getItem('initial');
+                info.dt_ini = localStorage.getItem(`initial_${vistoria.id}`);
             } else { info.cache = fileURL }
             vistoria.vistoriaEtapas = [{
                 "imagens": [info]
@@ -109,6 +109,7 @@ const Step = ({ data, changeData }) => {
             if(typeof response !== 'object') throw Error(`Erro no envio de ${info.tipo}`);
 
             if(info.tipo === 'button') {
+                localStorage.removeItem(`initial_${vistoria.id}`)
                 localStorage.removeItem('atual')
                 window.location.reload()
             } else {
