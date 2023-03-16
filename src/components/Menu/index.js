@@ -44,7 +44,7 @@ const Menu = ({ local, vistoria, avaria }) => {
                     <span>Iniciar vistoria</span>
                     { fase.vistoria ? <img src={img} alt="check" className="icone" /> : <FontAwesomeIcon icon={faPlay} size="xl" /> }
                 </div>
-                <div onClick={() => setAtual("avarias")} className={fase.vistoria === false ? "disable" : ""}>
+                <div onClick={() => setAtual("avarias")}>
                     <span>Danos e Avarias</span>
                     { fase.avarias ? <img src={img} alt="check" className="icone" /> : <FontAwesomeIcon icon={faPlay} size="xl" /> }
                 </div>
