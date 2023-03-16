@@ -103,7 +103,7 @@ const AvariaStep = ({ data, changeData }) => {
         }
         <p>Danos e Avarias</p>
         <textarea className="ma" rows={5} onChange={e => setDescURL(e.target.value)} value={descURL ? descURL : ''} disabled={photoURL === null}></textarea>
-        <UploadFiles file={photoURL && !photoURL.substring(0, 5) === 'https'} fileURLCallback={setPhotoURL} fileType={"imagem"} submit={submit} finishCallback={finish} />
+        <UploadFiles file={photoURL && photoURL?.substring(0, 5) !== 'https'} fileURLCallback={setPhotoURL} fileType={"imagem"} submit={submit} finishCallback={finish} />
         <CustomSnackbar content={snack} setStatus={setSnack} />
         <CustomDialog open={dialogStatus.open} handleClose={() => null} action={dialogStatus.action} message={dialogStatus.message} />
     </>
