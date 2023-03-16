@@ -1,4 +1,4 @@
-export const fetchData = (body) => {
+const fetchData = (body) => {
     body.functionPage = "vistoriaList";
 
     const vistoriaPromise = fetch(
@@ -18,28 +18,23 @@ export const fetchData = (body) => {
             body: JSON.stringify(body)
         }
         ).then((response) => response.json());
-    
-    return {
-      vistoria: wrapPromise(vistoriaPromise),
-      config: wrapPromise(configPromise)
-    };
-};
 
-export const fetchVistoria = (body) => {
-    body.functionPage = "vistoriaList";
+    body.functionPage = "avariasList";
 
-    const vistoriaPromise = fetch(
+    const avariasPromise = fetch(
         "https://teste.sivisweb.com.br/Modulos/Seguro/Api/AmdApi.php",
         {
             method: "POST",
             body: JSON.stringify(body)
         }
         ).then((response) => response.json());
-
+    
     return {
-        vistoria: wrapPromise(vistoriaPromise)
-    };      
-}
+      vistoria: wrapPromise(vistoriaPromise),
+      config: wrapPromise(configPromise),
+      avaria: wrapPromise(avariasPromise)
+    };
+};
   
 const wrapPromise = (promise) => {
     let status = "pending";
@@ -67,3 +62,5 @@ const wrapPromise = (promise) => {
         },
     };
 };
+
+export default fetchData;

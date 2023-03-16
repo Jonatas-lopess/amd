@@ -7,6 +7,7 @@ import Presentation from "../Presentation";
 const DataBuffer = ({ request }) => {
     const vistoria = request.vistoria.read()[0];
     const config = request.config.read();
+    const avaria = request.avaria.read();
     const theme = {
         primary: config.cor_primaria,
         secondary: config.cor_secundaria,
@@ -42,7 +43,7 @@ const DataBuffer = ({ request }) => {
     return <Layout info={vistoria} logo={config.logo} >
         {
             local.lat && local.lng
-             ? <Menu local={local} vistoria={vistoria} />
+             ? <Menu local={local} vistoria={vistoria} avaria={avaria} />
              : <Presentation callback={setLocal}/>
         }
         <CustomSnackbar content={snack} setStatus={setSnack} />

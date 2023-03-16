@@ -1,37 +1,24 @@
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import AvariaStep from "../AvariaStep";
 import CustomSnackbar from "../CustomSnackbar";
 
-const Avarias = () => {
-    const [currentStep, setCurrentStep] = useState(1);
+const Avarias = ({ data, id }) => {
+    const [avariaState, setAvariaState] = useState({
+        avaria: data,
+        index: data.length + 1
+    });
     const [snack, setSnack] = useState({
         message: '',
         status: false,
         type: 'error'
     });
 
-    const sendFiles = () => {
-        let fileArray = [];        
-
-        try {
-            console.log(fileArray);
-
-            setSnack({
-                type: 'success',
-                message: "enviado com sucesso",
-                status: true
-            });
-        } catch (error) {
-            setSnack({
-                type: 'error',
-                message: error.message,
-                status: true
-            });
-        }
-    }
+    useEffect(() => {
+        localStorage.setItem('atual', `avarias_${id}`)
+    }, [id]);
 
     return <>
-        <AvariaStep index={currentStep} changeStep={setCurrentStep} submit={sendFiles} key={currentStep} />
+        <AvariaStep data={avariaState} changeData={setAvariaState} key={avariaState.index} />
         <CustomSnackbar content={snack} setStatus={setSnack} />
     </>
 }
