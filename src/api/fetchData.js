@@ -29,10 +29,22 @@ const fetchData = (body) => {
         }
         ).then((response) => response.json());
     
+    body.functionPage = "acessoriosList";
+
+    const acessoriosPromise = fetch(
+        "https://teste.sivisweb.com.br/Modulos/Seguro/Api/AmdApi.php",
+        {
+            method: "POST",
+            body: JSON.stringify(body)
+        }
+        ).then((response) => response.json());
+    
+
     return {
       vistoria: wrapPromise(vistoriaPromise),
       config: wrapPromise(configPromise),
-      avaria: wrapPromise(avariasPromise)
+      avaria: wrapPromise(avariasPromise),
+      acessorios: wrapPromise(acessoriosPromise)
     };
 };
   

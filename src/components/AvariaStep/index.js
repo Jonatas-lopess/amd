@@ -93,7 +93,7 @@ const AvariaStep = ({ data, changeData }) => {
     return <>
         <div className='etapas'>
             <span className={index === 1 ? 'disable' : ''} onClick={index !== 1 ? () => changeData(prev => ({...prev, index: prev.index - 1})) : null}><img src={antImg} alt="prev" /></span>
-            <h3>Foto {`${index}`.padStart(2, "0")}/{`${avaria.length + 1}`.padStart(2, "0")}</h3>
+            <h3>Foto {`${index}`.padStart(2, "0")}/{`${data.avaria.length + 1}`.padStart(2, "0")}</h3>
             <span className={index === (avaria.length + 1) ? 'disable' : ''} onClick={index !== (avaria.length + 1) ? () => changeData(prev => ({...prev, index: prev.index + 1})) : null}><img src={proxImg} alt="next" /></span>
         </div>
         {

@@ -7,10 +7,11 @@ import Avarias from "../Avarias";
 import { useEffect, useState } from "react";
 import img from '../../assets/img/ICONE.png';
 
-const Menu = ({ local, vistoria, avaria }) => {
+const Menu = ({ local, vistoria, avaria, acessorios }) => {
     const [fase, setFase] = useState({
         vistoria: vistoria.data_aprov !== "",
         avarias: avaria.length !== 0,
+        acessorios: false,
         observation: false
     });
     const [atual, setAtual] = useState(handleAtual());
@@ -44,15 +45,15 @@ const Menu = ({ local, vistoria, avaria }) => {
                     <span>Iniciar vistoria</span>
                     { fase.vistoria ? <img src={img} alt="check" className="icone" /> : <FontAwesomeIcon icon={faPlay} size="xl" /> }
                 </div>
-                <div onClick={() => setAtual("avarias")}>
+                <div className={fase.vistoria === false || acessorios.length === 0 ? "disable" : ""} onClick={() => fase.vistoria && acessorios.length !== 0 ? setAtual("avarias") : null}>
                     <span>Danos e Avarias</span>
                     { fase.avarias ? <img src={img} alt="check" className="icone" /> : <FontAwesomeIcon icon={faPlay} size="xl" /> }
                 </div>
-                <div className={fase.vistoria === false ? "disable" : ""}>
+                <div className={fase.vistoria === false ? "disable" : ""} >
                     <span>Acessórios</span>
                     <FontAwesomeIcon icon={faPlay} size="xl" />
                 </div>
-                <div className={fase.vistoria === false ? "disable" : ""}>
+                <div className={fase.vistoria === false ? "disable" : ""} >
                     <span>Observações</span>
                     <FontAwesomeIcon icon={faPlay} size="xl" />
                 </div>
