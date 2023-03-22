@@ -1,6 +1,7 @@
 import { useState } from "react";
 import UploadFiles from "../UploadFiles";
 import img from '../../assets/img/avaria.jpg';
+import backimg from '../../assets/img/voltar.png';
 import { useParams } from "react-router-dom";
 import proxImg from '../../assets/img/proximo.png';
 import antImg from '../../assets/img/anterior.png';
@@ -89,6 +90,11 @@ const AvariaStep = ({ data, changeData }) => {
             });
         });
     }
+
+    const back_func = () => {
+        localStorage.removeItem("atual")
+        window.location.reload()
+    }
     
     return <>
         <div className='etapas'>
@@ -103,7 +109,19 @@ const AvariaStep = ({ data, changeData }) => {
         }
         <p>Danos e Avarias</p>
         <textarea className="ma" rows={5} onChange={e => setDescURL(e.target.value)} value={descURL ? descURL : ''} disabled={photoURL === null}></textarea>
-        <UploadFiles file={photoURL && photoURL?.substring(0, 5) !== 'https'} fileURLCallback={setPhotoURL} fileType={"imagem"} submit={submit} finishCallback={finish} />
+        {
+            photoURL === `https://teste.sivisweb.com.br${avaria[index - 1]?.imagem}`
+            ?   <div className="avaria-btn">
+                    <div>
+                        <UploadFiles file={photoURL && photoURL?.substring(0, 5) !== 'https'} fileURLCallback={setPhotoURL} fileType={"imagem"} submit={submit} finishCallback={finish} />
+                    </div>
+                    <div className="back-button" onClick={back_func} >
+                        <h2>Voltar</h2>
+                        <img src={backimg} alt="back_img" />
+                    </div>
+                </div>
+            :   <UploadFiles file={photoURL && photoURL?.substring(0, 5) !== 'https'} fileURLCallback={setPhotoURL} fileType={"imagem"} submit={submit} finishCallback={finish} />
+        }
         <CustomSnackbar content={snack} setStatus={setSnack} />
         <CustomDialog open={dialogStatus.open} handleClose={() => null} action={dialogStatus.action} message={dialogStatus.message} />
     </>

@@ -502,6 +502,17 @@ textarea {
     display: block;
 }
 
+.avaria-btn {
+    display: flex;
+    justify-content: space-around;
+}
+
+.back-button img {
+    margin-top: 0.5rem;
+    width: 56px;
+    height: 56px;
+}
+
 @media (orientation: portrait) {
     .camera-buttons{
         bottom: 0;
