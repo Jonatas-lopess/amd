@@ -110,7 +110,7 @@ const AvariaStep = ({ data, changeData }) => {
         <p>Danos e Avarias</p>
         <textarea className="ma" rows={5} onChange={e => setDescURL(e.target.value)} value={descURL ? descURL : ''} disabled={photoURL === null}></textarea>
         {
-            photoURL === `https://teste.sivisweb.com.br${avaria[index - 1]?.imagem}`
+            !photoURL || photoURL === `https://teste.sivisweb.com.br${avaria[index - 1]?.imagem}`
             ?   <div className="avaria-btn">
                     <div>
                         <UploadFiles file={photoURL && photoURL?.substring(0, 5) !== 'https'} fileURLCallback={setPhotoURL} fileType={"imagem"} submit={submit} finishCallback={finish} />
