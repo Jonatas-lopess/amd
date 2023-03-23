@@ -6,12 +6,13 @@ import Observation from '../Observation';
 import Avarias from "../Avarias";
 import { useEffect, useState } from "react";
 import img from '../../assets/img/ICONE.png';
+import Accessories from "../Accessories";
 
 const Menu = ({ local, vistoria, avaria, acessorios }) => {
     const [fase, setFase] = useState({
         vistoria: vistoria.data_aprov !== "",
         avarias: avaria.length !== 0,
-        acessorios: false,
+        acessorios: handleAcessorios(),
         observation: false
     });
     const [atual, setAtual] = useState(handleAtual());
@@ -19,12 +20,22 @@ const Menu = ({ local, vistoria, avaria, acessorios }) => {
     const list = {
         vistoria: <Vistoria data={vistoria} />,
         avarias: <Avarias data={avaria} id={vistoria.id} />,
+        acessorios: <Accessories data={acessorios} vistoriaId={vistoria.id} />,
         observation: <Observation changeView={setAtual} callback={setFase} />
     }
 
     useEffect(() => {
         localStorage.removeItem('timer');
-    }, [])
+    }, [fase.acessorios])
+    
+    function handleAcessorios() {
+        let val = false;
+        for (let i of acessorios) {
+            if(i.check === 1) val = true;
+        }
+
+        return val;
+    }
 
     function handleAtual() {
         let atual = localStorage.getItem('atual')
@@ -49,9 +60,9 @@ const Menu = ({ local, vistoria, avaria, acessorios }) => {
                     <span>Danos e Avarias</span>
                     { fase.avarias ? <img src={img} alt="check" className="icone" /> : <FontAwesomeIcon icon={faPlay} size="xl" /> }
                 </div>
-                <div className={fase.vistoria === false ? "disable" : ""} >
+                <div className={fase.vistoria === false ? "disable" : ""} onClick={() => fase.vistoria ? setAtual("acessorios") : null} >
                     <span>Acessórios</span>
-                    <FontAwesomeIcon icon={faPlay} size="xl" />
+                    { fase.acessorios ? <img src={img} alt="check" className="icone" /> : <FontAwesomeIcon icon={faPlay} size="xl" /> }
                 </div>
                 <div className={fase.vistoria === false ? "disable" : ""} >
                     <span>Observações</span>
