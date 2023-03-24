@@ -24,7 +24,7 @@ const Vistoria = ({ data }) => {
         localStorage.setItem('atual', `vistoria_${data.id}`)
     }, [data.id])
 
-    return <Step data={vistoriaState} changeData={setVistoriaState} />
+    return <Step data={vistoriaState} changeData={setVistoriaState} key={vistoriaState.currentStep} />
 }
 
 export default Vistoria;
