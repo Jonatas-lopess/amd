@@ -55,11 +55,11 @@ const Menu = ({ local, vistoria, avaria, acessorios }) => {
                     <span>Iniciar vistoria</span>
                     { fase.vistoria ? <img src={img} alt="check" className="icone" /> : <FontAwesomeIcon icon={faPlay} size="xl" /> }
                 </div>
-                <div className={fase.vistoria === false || acessorios.length === 0 ? "disable" : ""} onClick={() => fase.vistoria && acessorios.length !== 0 ? setAtual("avarias") : null}>
+                <div className={fase.vistoria === false ? "disable" : ""} onClick={() => fase.vistoria ? setAtual("avarias") : null}>
                     <span>Danos e Avarias</span>
                     { fase.avarias ? <img src={img} alt="check" className="icone" /> : <FontAwesomeIcon icon={faPlay} size="xl" /> }
                 </div>
-                <div className={fase.vistoria === false ? "disable" : ""} onClick={() => fase.vistoria ? setAtual("acessorios") : null} >
+                <div className={fase.vistoria === false || acessorios.length === 0 ? "disable" : ""} onClick={() => fase.vistoria && acessorios.length !== 0 ? setAtual("acessorios") : null} >
                     <span>Acessórios</span>
                     { fase.acessorios ? <img src={img} alt="check" className="icone" /> : <FontAwesomeIcon icon={faPlay} size="xl" /> }
                 </div>
