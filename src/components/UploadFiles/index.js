@@ -6,7 +6,7 @@ import Camera from "../Camera";
 import CustomDialog from '../CustomDialog';
 
 const UploadFiles = ({ file ,fileURLCallback, fileType, submit, finishCallback = false }) => {
-    const PHOTO_NOT_VALID = <>Atenção!<br/>{fileType} foi capturada com o celular em modo Retrato (em pé). Vamos tentar de novo? Precisamos em modo PAISAGEM (com celular deitado) ok?</>
+    const PHOTO_NOT_VALID = <><span className="err-title">Atenção!</span>Ative em seu celular a rotação de tela automática. {fileType === "imagem" ? "A" : "O"} {fileType} precisa ser capturado em modo paisagem (com celular deitado) ok?</>
     const [dialogStatus, setDialogStatus] = useState({
         open: false,
         message: PHOTO_NOT_VALID,

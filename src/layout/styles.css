@@ -513,6 +513,18 @@ textarea {
     height: 56px;
 }
 
+#alert-dialog-description {
+    text-align: center;
+    font-weight: bold;
+}
+
+.err-title {
+    color: red;
+    text-transform: uppercase;
+    display: block;
+    margin-bottom: .5rem;
+}
+
 @media (orientation: portrait) {
     .camera-buttons{
         bottom: 0;
