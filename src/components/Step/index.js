@@ -15,7 +15,7 @@ const Step = ({ data, changeData }) => {
     const infoId = Number(info.id);
     const [fileURL, setFileURL] = useState(null);
     const videoRef = useRef();
-    const veiculoImg = `https://teste.sivisweb.com.br${info.imagem}`;
+    const veiculoImg = `https://sivisweb.com.br${info.imagem}`;
     const [snack, setSnack] = useState({
         message: '',
         status: false,

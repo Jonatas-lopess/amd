@@ -1,7 +1,7 @@
 import './styles.css';
 
 const Layout = ({ info, logo, children }) => {
-    const logoImg = `https://teste.sivisweb.com.br/${logo}`;
+    const logoImg = `https://sivisweb.com.br/${logo}`;
 
     return (
         <>

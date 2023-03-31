@@ -12,7 +12,7 @@ import CustomDialog from '../CustomDialog';
 const AvariaStep = ({ data, changeData }) => {
     const index = data.index;
     const avaria = data.avaria;
-    const [photoURL, setPhotoURL] = useState(avaria[index - 1] ? `https://teste.sivisweb.com.br${avaria[index - 1].imagem}` : null);
+    const [photoURL, setPhotoURL] = useState(avaria[index - 1] ? `https://sivisweb.com.br${avaria[index - 1].imagem}` : null);
     const [descURL, setDescURL] = useState(avaria[index - 1] ? avaria[index - 1].observacao : null);
     const { id, contrato } = useParams();
     const [snack, setSnack] = useState({
@@ -110,7 +110,7 @@ const AvariaStep = ({ data, changeData }) => {
         <p>Danos e Avarias</p>
         <textarea className="ma" rows={5} onChange={e => setDescURL(e.target.value)} value={descURL ? descURL : ''} disabled={photoURL === null}></textarea>
         {
-            !photoURL || photoURL === `https://teste.sivisweb.com.br${avaria[index - 1]?.imagem}`
+            !photoURL || photoURL === `https://sivisweb.com.br${avaria[index - 1]?.imagem}`
             ?   <div className="avaria-btn">
                     <div>
                         <UploadFiles file={photoURL && photoURL?.substring(0, 5) !== 'https'} fileURLCallback={setPhotoURL} fileType={"imagem"} submit={submit} finishCallback={finish} />
