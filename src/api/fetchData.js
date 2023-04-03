@@ -2,7 +2,7 @@ const fetchData = (body) => {
     body.functionPage = "vistoriaList";
 
     const vistoriaPromise = fetch(
-        "https://sivisweb.com.br/Modulos/Seguro/Api/AmdApi.php",
+        "https://teste.sivisweb.com.br/Modulos/Seguro/Api/AmdApi.php",
         {
             method: "POST",
             body: JSON.stringify(body)
@@ -12,7 +12,7 @@ const fetchData = (body) => {
     body.functionPage = "config";
 
     const configPromise = fetch(
-        "https://sivisweb.com.br/Modulos/Seguro/Api/AmdApi.php",
+        "https://teste.sivisweb.com.br/Modulos/Seguro/Api/AmdApi.php",
         {
             method: "POST",
             body: JSON.stringify(body)
@@ -22,7 +22,7 @@ const fetchData = (body) => {
     body.functionPage = "avariasList";
 
     const avariasPromise = fetch(
-        "https://sivisweb.com.br/Modulos/Seguro/Api/AmdApi.php",
+        "https://teste.sivisweb.com.br/Modulos/Seguro/Api/AmdApi.php",
         {
             method: "POST",
             body: JSON.stringify(body)
@@ -32,7 +32,7 @@ const fetchData = (body) => {
     body.functionPage = "acessoriosList";
 
     const acessoriosPromise = fetch(
-        "https://sivisweb.com.br/Modulos/Seguro/Api/AmdApi.php",
+        "https://teste.sivisweb.com.br/Modulos/Seguro/Api/AmdApi.php",
         {
             method: "POST",
             body: JSON.stringify(body)

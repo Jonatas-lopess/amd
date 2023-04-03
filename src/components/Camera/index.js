@@ -46,7 +46,7 @@ export const Camera = ({ callback }) => {
     }, [])
 
     return <>
-        <video id="camera-container" ></video>
+        <video id="camera-container" autoPlay={true} playsInline={true}></video>
         <div className="camera-buttons" >
             <div className="border">
                 <button id="record" className={recording ? "recording" : ""} ></button>
